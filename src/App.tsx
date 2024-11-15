@@ -1,17 +1,29 @@
 import './App.css'
 import DashboardLayout from "./layouts/DashboardLayout.tsx";
-import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider} from "react-router-dom";
 import {Flip, ToastContainer} from "react-toastify";
+import {ProtectedRoute} from "./routing/ProtectedRoute.tsx";
 
 const router = createBrowserRouter(
     // Some dummy routing
     createRoutesFromElements(
         [
-            <Route path="/" element={<DashboardLayout>
-                <h1>Some component goes here</h1>
-            </DashboardLayout>}/>
-            ,
-            <Route path="test" element={<>Test route</>}/>
+            <Route path="/" element={<Navigate to="/dashboard"/>}/>,
+            <Route path="/dashboard/" element={<Navigate to="/dashboard/seminars"/>}/>,
+            <Route path="auth" element={<>Auth route</>}>
+                <Route path="login" element={<>Login route</>}/>
+                <Route path="register" element={<>Register route</>}/>
+            </Route>,
+            <Route path="/dashboard" element={<ProtectedRoute/>}>
+                <Route path="" element={<DashboardLayout/>}>
+                    <Route path="seminars" element={<>Seminars route</>}/>
+                    <Route path="employees" element={<>Employees route</>}/>
+                    <Route path="customers" element={<>Customers route</>}/>
+                </Route>
+            </Route>,
+
+            // Not found route
+            <Route path={"*"} element={<>Custom Not Found Page</>}/>
         ]
     )
 )

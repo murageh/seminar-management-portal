@@ -1,4 +1,4 @@
-import {TbActivityHeartbeat, TbFolder} from "react-icons/tb";
+import {FaHouse, FaRegRectangleList, FaUser, FaUserTie} from "react-icons/fa6";
 import React from "react";
 import {toast} from "react-toastify";
 
@@ -7,14 +7,26 @@ const MainSidebar = () => {
 
     const MenuItems = [
         {
-            icon: <TbFolder/>,
+            icon: <FaHouse/>,
             label: "Dashboard",
             link: "/dashboard"
         },
         {
-            icon: <TbActivityHeartbeat/>,
+            icon: <FaRegRectangleList/>,
             label: "Seminars",
             link: "/seminars"
+        }
+        ,
+        {
+            icon: <FaUserTie/>,
+            label: "Employees",
+            link: "/employees"
+        }
+        ,
+        {
+            icon: <FaUser/>,
+            label: "Customers",
+            link: "/customers"
         }
     ];
 
@@ -30,7 +42,7 @@ const MainSidebar = () => {
                 className={`w-12 h-12 flex items-center justify-center rounded-md text-${selected === link ? 'primary' : 'slate-900'} bg-transparent hover:bg-blue-700`}>
                 {
                     React.cloneElement(children as React.ReactElement, {
-                        size: 32,
+                        size: 24,
                         className: `text-${selected === link ? 'primary' : 'slate-900'} font-normal`
                     })
                 }

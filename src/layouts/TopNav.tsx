@@ -1,6 +1,6 @@
 // import ThemeToggle from "./theme/ThemeToggle.tsx";
 
-import {TbPlus} from "react-icons/tb";
+import {FaPlus} from "react-icons/fa6";
 import {toast} from "react-toastify";
 
 const TopNav = () => {
@@ -27,7 +27,7 @@ const TopNav = () => {
                 {/* Add new seminar button */}
                 <NavButton
                     text="Add New Seminar"
-                    icon={<TbPlus size={18}/>}
+                    icon={<FaPlus size={18}/>}
                     onClick={() => toast.success("Add new seminar clicked")}
                 />
 

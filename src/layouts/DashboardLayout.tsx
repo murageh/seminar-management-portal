@@ -1,8 +1,8 @@
 import MainSidebar from './MainSidebar.tsx';
 import TopNav from './TopNav.tsx';
-import React from "react";
+import {Outlet} from "react-router-dom";
 
-const DashboardLayout = ({children}: { children: React.ReactNode }) => {
+const DashboardLayout = () => {
     return (
         <>
             <div className="flex h-screen">
@@ -16,7 +16,7 @@ const DashboardLayout = ({children}: { children: React.ReactNode }) => {
 
                     {/* Content area */}
                     <div className="flex-1 p-6 bg-gray-100">
-                        {children} {/* AnalyticsPage will go here */}
+                        <Outlet/> {/* Nested routes will render here */}
                     </div>
                 </div>
             </div>
