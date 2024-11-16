@@ -1,12 +1,12 @@
 // Need to use the React-specific entry point to import `createApi`
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {User} from "../../dtos/User.ts";
+import {JWTToken, User} from "../../dtos/User.ts";
 import {RootState} from "../store.ts";
 
 interface AuthStore {
     loggedIn: boolean;
     user: User | null;
-    token: string | null;
+    token: JWTToken | null;
     error?: string;
 }
 
@@ -21,20 +21,22 @@ export const authSlice = createSlice({
     name: "auth",
     initialState: initialState,
     reducers: {
-        updateUser: (state, action: PayloadAction<User>) => {
+        setUser: (state, action: PayloadAction<User>) => {
             state.user = action.payload;
             state.loggedIn = true;
         },
-        setToken: (state, action: PayloadAction<string | null>) => {
+        setToken: (state, action: PayloadAction<JWTToken | null>) => {
             state.token = action.payload;
-            if (state.user && state.token) {
-                state.loggedIn = true;
-            }
+            state.loggedIn = !!state.token;
+            localStorage.setItem("jwtToken", state.token?.token || "");
         },
         setError: (state, action: PayloadAction<string | undefined>) => {
             state.error = action.payload;
         },
         setLoggedIn: (state, action: PayloadAction<boolean>) => {
+            if (!state.user && !state.token) {
+                throw new Error("At least a user or token must be set before setting loggedIn");
+            }
             state.loggedIn = action.payload;
         },
         clearError: (state) => {
@@ -45,14 +47,15 @@ export const authSlice = createSlice({
             state.user = null;
             state.token = null;
             if (typeof window !== "undefined") {
-                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('jwtToken');
+                localStorage.removeItem('jwtToken');
             }
         }
     },
 });
 
 export const {
-    updateUser,
+    setUser,
     setToken,
     setLoggedIn,
     logout,

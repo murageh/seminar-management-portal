@@ -10,7 +10,7 @@ const DashboardLayout = () => {
 
     return (
         <>
-            <div className="flex h-screen">
+            <div className="flex h-full">
                 {/* Main Sidebar with icons */}
                 <MainSidebar/>
 

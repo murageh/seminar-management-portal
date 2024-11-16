@@ -1,9 +1,10 @@
 import {FaHouse, FaRegRectangleList, FaUser, FaUserTie} from "react-icons/fa6";
 import React from "react";
-import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 const MainSidebar = () => {
     const [selected, setSelected] = React.useState<string | null>("/analytics");
+    const navigate = useNavigate();
 
     const MenuItems = [
         {
@@ -14,19 +15,19 @@ const MainSidebar = () => {
         {
             icon: <FaRegRectangleList/>,
             label: "Seminars",
-            link: "/seminars"
+            link: "/dashboard/seminars"
         }
         ,
         {
             icon: <FaUserTie/>,
             label: "Employees",
-            link: "/employees"
+            link: "/dashboard/employees"
         }
         ,
         {
             icon: <FaUser/>,
             label: "Customers",
-            link: "/customers"
+            link: "/dashboard/customers"
         }
     ];
 
@@ -34,8 +35,7 @@ const MainSidebar = () => {
         return (
             <button
                 onClick={() => {
-                    toast.success(`Navigating to ${link}`);
-                    // TODO: Do actual navigation
+                    navigate(link);
                     return setSelected(link);
                 }}
                 title={label}

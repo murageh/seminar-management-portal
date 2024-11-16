@@ -21,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
                                            size = "medium",
                                            children,
                                            className,
+                                           disabled,
                                            ...props
                                        }) => {
     const baseClasses = "font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all";
@@ -29,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
         secondary: "bg-gray-600 text-white hover:bg-gray-500 focus:ring-gray-400",
         outlined: "border border-gray-600 text-gray-600 hover:bg-gray-100 focus:ring-gray-400",
     };
+    const disabledClasses = "opacity-50 cursor-not-allowed";
     const widthClass = fullWidth ? "w-full" : "w-auto";
     const iconClass = iconPosition === "left" ? "mr-2" : "ml-2";
     const alignmentClass = {
@@ -51,7 +53,17 @@ const Button: React.FC<ButtonProps> = ({
     return (
         <div className={classNames("flex", alignmentClass[alignment])}>
             <button
-                className={classNames(baseClasses, variantClasses[variant], widthClass, customSizeClass, "flex items-center", innerAlignmentClass[innerAlignment], className)}
+                className={classNames(
+                    baseClasses,
+                    variantClasses[variant],
+                    widthClass,
+                    customSizeClass,
+                    "flex items-center",
+                    innerAlignmentClass[innerAlignment],
+                    {[disabledClasses]: disabled},
+                    className
+                )}
+                disabled={disabled}
                 {...props}
             >
                 {icon && iconPosition === "left" && <span className={iconClass}>{icon}</span>}

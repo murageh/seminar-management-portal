@@ -5,7 +5,14 @@ interface User {
     title: string;
     uuid: string;
     email: string;
-    username: string
+    username: string;
 }
 
-export type {User};
+interface JWTToken {
+    issuedAt: number;
+    expiresIn: number;
+    token: string;
+    refreshToken: string
+}
+
+export type {User, JWTToken};

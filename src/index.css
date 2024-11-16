@@ -31,5 +31,6 @@ body {
   min-height: 100vh;
   background-color: #d6dae0; /* Tailwind gray-100 with hsl value 86% */;
   backdrop-filter: blur(20px);
+  overflow: hidden;
 }
 

@@ -17,6 +17,7 @@ const router = createBrowserRouter(
             </Route>
             <Route path="dashboard" element={<ProtectedRoute/>}>
                 <Route path="" element={<DashboardLayout/>}>
+                    <Route index element={<>SeminarsPage</>}/>
                     <Route path="seminars" element={<>SeminarsPage</>}/>
                     <Route path="employees" element={<>EmployeesPage</>}/>
                     <Route path="customers" element={<>CustomersPage</>}/>

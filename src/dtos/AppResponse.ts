@@ -1,7 +1,7 @@
 import {Seminar} from "./Seminar.ts";
 import {Employee} from "./Employee.ts";
 import {Customer} from "./Customer.ts";
-import {User} from "./User.ts";
+import {JWTToken, User} from "./User.ts";
 
 interface ErrorResponse {
     success: boolean;
@@ -51,6 +51,28 @@ interface UsersResponse {
     statusCode: number;
     message: string;
 }
+
+interface LoginResponse {
+    success: boolean;
+    data: JWTToken;
+    title: string;
+    path: string;
+    statusCode: number;
+    message: string;
+}
+
+const LoginResponseExample: LoginResponse = {
+    "success": true,
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1haW5hIiwiYWN0b3J0IjoiezY0MjY2QzE4LTlEMUUtNDIxNS1CNUZGLTgxQ0NDRjU4MjEzNn0iLCJyb2xlIjoidXNlciIsIm5iZiI6MTczMTc1NDA3NywiZXhwIjoxNzMxNzc1Njc3LCJpYXQiOjE3MzE3NTQwNzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMzIiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjMyIn0.Vt3ixVsZsYTVdCeNUY_qWRlC80XJWc_Dh1Odno6u144",
+        "expiresIn": 21600,
+        "refreshToken": ""
+    },
+    "title": "Logging in",
+    "path": "/api/auth/login",
+    "statusCode": 200,
+    "message": "User logged in successfully."
+};
 
 const UserResponseExample: UsersResponse = {
     "success": true,
@@ -288,5 +310,19 @@ const SeminarResponseExample: SeminarResponse = {
     ]
 };
 
-export type {ErrorResponse, SeminarResponse, EmployeeResponse, CustomerResponse, UserResponse, UsersResponse};
-export {SeminarResponseExample, EmployeeResponseExample, CustomerResponseExample, UserResponseExample};
+export type {
+    ErrorResponse,
+    SeminarResponse,
+    EmployeeResponse,
+    CustomerResponse,
+    UserResponse,
+    UsersResponse,
+    LoginResponse
+};
+export {
+    SeminarResponseExample,
+    EmployeeResponseExample,
+    CustomerResponseExample,
+    UserResponseExample,
+    LoginResponseExample
+};

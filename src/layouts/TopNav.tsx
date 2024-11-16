@@ -2,8 +2,14 @@
 
 import {FaPlus} from "react-icons/fa6";
 import {toast} from "react-toastify";
+import {useAppDispatch, useAppSelector} from "../state/hooks.ts";
+import {logout} from "../state/features/authSlice.ts";
+import {LuLogOut} from "react-icons/lu";
 
 const TopNav = () => {
+    const {user} = useAppSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+
     const NavButton = ({text, icon, onClick}: { text: string, icon: JSX.Element, onClick: () => void }) => {
         return (
             <button
@@ -14,6 +20,8 @@ const TopNav = () => {
             </button>
         );
     }
+
+    const fullName = `${user?.firstName} ${user?.lastName}`;
 
     return (
         <div className="sticky top-0 flex justify-between items-center bg-white p-6 shadow-md h-16">
@@ -33,14 +41,27 @@ const TopNav = () => {
 
                 {/* Profile */}
                 <div className={"cursor-pointer"}>
-                    <p className="text-sm font-semibold">John Doe</p>
-                    <p className="text-xs text-gray-500">Admin</p>
+                    <p className="text-sm font-semibold">{fullName}</p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
                 </div>
 
                 {/* Profile image */}
                 <img
                     src="https://i.pravatar.cc/300"
                     alt="User Avatar" className="w-10 h-10 rounded-full"/>
+
+                {/* Theme toggle */}
+                {/* <ThemeToggle/> */}
+
+                {/* Logout */}
+                <NavButton
+                    text=""
+                    icon={<LuLogOut size={18}/>}
+                    onClick={() => {
+                        dispatch(logout());
+                        toast.info("Logged out :)");
+                    }}
+                />
             </div>
         </div>
     );
