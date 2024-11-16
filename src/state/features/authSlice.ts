@@ -2,6 +2,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {JWTToken, User} from "../../dtos/User.ts";
 import {RootState} from "../store.ts";
+import {clearAllData} from "../hooks.ts";
 
 interface AuthStore {
     loggedIn: boolean;
@@ -47,8 +48,9 @@ export const authSlice = createSlice({
             state.user = null;
             state.token = null;
             if (typeof window !== "undefined") {
-                sessionStorage.removeItem('jwtToken');
-                localStorage.removeItem('jwtToken');
+                // sessionStorage.removeItem('jwtToken');
+                // localStorage.removeItem('jwtToken');
+                clearAllData();
             }
         }
     },
