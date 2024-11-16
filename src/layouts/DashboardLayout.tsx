@@ -15,12 +15,13 @@ const DashboardLayout = () => {
                 <MainSidebar/>
 
                 {/* Main content area */}
-                <div className="flex-1 flex flex-col h-screen overflow-y-auto">
+                <div className="mainContent flex-1 flex flex-col h-screen">
                     {/* Top Navigation */}
                     <TopNav/>
 
                     {/* Content area */}
-                    <div className="flex-1 justify-start items-start p-12 bg-gray-100">
+                    <div
+                        className="dashContent overflow-auto flex-1 w-full flex flex-col justify-start h-0 items-start text-left p-12 bg-gray-100">
                         <Outlet/> {/* Nested routes will render here */}
                     </div>
                 </div>

@@ -1,5 +1,8 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import authSlice from '../state/features/authSlice';
+import seminarSlice from "./features/seminarSlice";
+import employeeSlice from "./features/employeeSlice";
+import customerSlice from "./features/customerSlice";
 // redux-persist
 import {persistReducer, persistStore} from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
@@ -13,6 +16,9 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     auth: authSlice,
+    seminar: seminarSlice,
+    employee: employeeSlice,
+    customer: customerSlice,
 });
 
 const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(persistConfig, rootReducer);

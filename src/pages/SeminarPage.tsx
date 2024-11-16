@@ -1,17 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import SeminarTable from '../layouts/tables/SeminarTable';
-import axios from 'axios';
-import {Seminar} from '../dtos/Seminar';
+import {useAppDispatch, useAppSelector} from "../state/hooks.ts";
+import * as seminarService from "../services/seminarService";
+import {setSeminars} from "../state/features/seminarSlice.ts";
 
 export const SeminarPage = () => {
-    const [seminars, setSeminars] = useState<Seminar[]>([]);
+    const {seminars, error} = useAppSelector(state => state.seminar);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         const fetchSeminars = async () => {
             try {
                 // TODO: Change this
-                const response = await axios.get<Seminar[]>('/api/seminars');
-                setSeminars(response.data);
+                const response = await seminarService.getSeminars();
+                dispatch(setSeminars(response.data));
             } catch (error) {
                 console.error('Error fetching seminars:', error);
             }
@@ -21,11 +23,11 @@ export const SeminarPage = () => {
     }, []);
 
     return (
-        <div className="text-left">
-            <h1 className="text-3xl font-bold">Seminars</h1>
-            <div className="mt-8">
+        <>
+            <h1 className="text-3xl font-bold sticky top-0">Seminars</h1>
+            <div className="mt-8 w-full flex-1 h-0 overflow-auto bg-white p-4 rounded-lg shadow-md">
                 <SeminarTable seminars={seminars}/>
             </div>
-        </div>
+        </>
     );
 };
