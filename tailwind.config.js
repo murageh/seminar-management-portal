@@ -12,6 +12,12 @@ export default {
             },
             borderWidth: {
                 "3": "3px",
+            },
+            fontFamily: {
+                'gothic': ['Century Gothic', 'sans-serif'],
+            },
+            duration: {
+                1500: '1500ms',
             }
         },
     },

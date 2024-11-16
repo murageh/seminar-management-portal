@@ -1,12 +1,11 @@
-import {Outlet, useNavigate} from "react-router-dom";
+import {Navigate, Outlet} from "react-router-dom";
+import {useAppSelector} from "../state/hooks.ts";
 
 export const ProtectedRoute = () => {
-    const navigate = useNavigate();
-    const isAuthenticated = true; // Replace with actual authentication check
+    // const navigate = useNavigate();
+    const {loggedIn: isAuthenticated} = useAppSelector(state => state.auth);
 
     if (!isAuthenticated) {
-        navigate('/auth/login');
-    }
-
-    return <Outlet/>;
+        return <Navigate to='/auth/login'/>;
+    } else return <Outlet/>
 };
