@@ -6,7 +6,7 @@ import axios from 'axios';
 // Get all employees
 export const getEmployees = async (): Promise<EmployeeResponse> => {
     try {
-        const response = await axiosInstance.get<EmployeeResponse>('/employees');
+        const response = await axiosInstance.get<EmployeeResponse>('/employee');
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -21,7 +21,7 @@ export const getEmployees = async (): Promise<EmployeeResponse> => {
 // TODO: Update type of newEmployee once implemented
 export const createEmployee = async (newEmployee: any): Promise<EmployeeResponse> => {
     try {
-        const response = await axiosInstance.post<EmployeeResponse>('/employees', newEmployee);
+        const response = await axiosInstance.post<EmployeeResponse>('/employee', newEmployee);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -35,7 +35,7 @@ export const createEmployee = async (newEmployee: any): Promise<EmployeeResponse
 // Update an existing employee
 export const updateEmployee = async (no: string, updatedEmployee: Employee): Promise<EmployeeResponse> => {
     try {
-        const response = await axiosInstance.put<EmployeeResponse>(`/employees/${no}`, updatedEmployee);
+        const response = await axiosInstance.put<EmployeeResponse>(`/employee/${no}`, updatedEmployee);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -49,7 +49,7 @@ export const updateEmployee = async (no: string, updatedEmployee: Employee): Pro
 // Delete an employee by no
 export const deleteEmployee = async (no: string): Promise<void> => {
     try {
-        await axiosInstance.delete(`/employees/${no}`);
+        await axiosInstance.delete(`/employee/${no}`);
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
