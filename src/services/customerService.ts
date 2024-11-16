@@ -6,7 +6,7 @@ import axios from 'axios';
 // Get all customers
 export const getCustomers = async (): Promise<CustomerResponse> => {
     try {
-        const response = await axiosInstance.get<CustomerResponse>('/customers');
+        const response = await axiosInstance.get<CustomerResponse>('/customer');
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -21,7 +21,7 @@ export const getCustomers = async (): Promise<CustomerResponse> => {
 // TODO: Update type of newCustomer once implemented
 export const createCustomer = async (newCustomer: any): Promise<CustomerResponse> => {
     try {
-        const response = await axiosInstance.post<CustomerResponse>('/customers', newCustomer);
+        const response = await axiosInstance.post<CustomerResponse>('/customer', newCustomer);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -35,7 +35,7 @@ export const createCustomer = async (newCustomer: any): Promise<CustomerResponse
 // Update an existing customer
 export const updateCustomer = async (no: string, updatedCustomer: Customer): Promise<CustomerResponse> => {
     try {
-        const response = await axiosInstance.put<CustomerResponse>(`/customers/${no}`, updatedCustomer);
+        const response = await axiosInstance.put<CustomerResponse>(`/customer/${no}`, updatedCustomer);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -49,7 +49,7 @@ export const updateCustomer = async (no: string, updatedCustomer: Customer): Pro
 // Delete a customer by no
 export const deleteCustomer = async (no: string): Promise<void> => {
     try {
-        await axiosInstance.delete(`/customers/${no}`);
+        await axiosInstance.delete(`/customer/${no}`);
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
