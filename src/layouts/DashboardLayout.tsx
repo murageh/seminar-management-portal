@@ -20,7 +20,7 @@ const DashboardLayout = () => {
                     <TopNav/>
 
                     {/* Content area */}
-                    <div className="flex-1 p-6 bg-gray-100">
+                    <div className="flex-1 justify-start items-start p-12 bg-gray-100">
                         <Outlet/> {/* Nested routes will render here */}
                     </div>
                 </div>

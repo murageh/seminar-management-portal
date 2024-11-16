@@ -7,6 +7,9 @@ import AuthLayout from "./layouts/auth/AuthLayout.tsx";
 import RootLayout from "./layouts/RootLayout.tsx";
 import LoginPage from "./pages/auth/Login.tsx";
 import RegisterPage from "./pages/auth/Register.tsx";
+import {SeminarPage} from "./pages/SeminarPage.tsx";
+import {EmployeePage} from "./pages/EmployeePage.tsx";
+import {CustomerPage} from "./pages/CustomerPage.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -17,10 +20,10 @@ const router = createBrowserRouter(
             </Route>
             <Route path="dashboard" element={<ProtectedRoute/>}>
                 <Route path="" element={<DashboardLayout/>}>
-                    <Route index element={<>SeminarsPage</>}/>
-                    <Route path="seminars" element={<>SeminarsPage</>}/>
-                    <Route path="employees" element={<>EmployeesPage</>}/>
-                    <Route path="customers" element={<>CustomersPage</>}/>
+                    <Route index element={<SeminarPage/>}/>
+                    <Route path="seminars" element={<SeminarPage/>}/>
+                    <Route path="employees" element={<EmployeePage/>}/>
+                    <Route path="customers" element={<CustomerPage/>}/>
                 </Route>
             </Route>
             <Route path="*" element={<>NotFoundPage</>}/>
