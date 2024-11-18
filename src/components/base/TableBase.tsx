@@ -25,6 +25,7 @@ const TableBase = <T, >({data, columns, onRowClick}: TableBaseProps<T>) => {
                     {columns.map((column) => (
                         <td key={column.accessor as string}
                             className={`border-b border-slate-200 p-4 pl-8 text-slate-700 ${column.underline ? `underline decoration-${column.underline} underline-offset-8 cursor-pointer` : ''}`}>
+                            {/* @ts-expect-error Accessor could be null */}
                             {item[column.accessor] || '-'}
                         </td>
                     ))}
