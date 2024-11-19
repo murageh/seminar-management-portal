@@ -1,13 +1,8 @@
 import MainSidebar from './MainSidebar.tsx';
 import TopNav from './TopNav.tsx';
 import {Outlet} from "react-router-dom";
-import {useAppSelector} from "../state/hooks.ts";
 
 const DashboardLayout = () => {
-    const {token, user, error} = useAppSelector(state => state.auth);
-
-    console.log(token, user, error);
-
     return (
         <>
             <div className="flex h-full">

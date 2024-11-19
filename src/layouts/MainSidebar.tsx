@@ -1,7 +1,7 @@
 import {FaBars, FaHouse, FaRegRectangleList, FaUser, FaUserTie} from "react-icons/fa6";
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import Accordion from "../components/base/Accrodion.tsx";
+import Accordion from "../components/base/Accordion.tsx";
 
 interface NormalMenuItem {
     icon: React.ReactNode;

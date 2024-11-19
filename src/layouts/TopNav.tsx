@@ -1,12 +1,13 @@
 import {FaPlus} from "react-icons/fa6";
 import {toast} from "react-toastify";
 import {useAppDispatch, useAppSelector} from "../state/hooks.ts";
-import {logout} from "../state/features/authSlice.ts";
 import {LuLogOut} from "react-icons/lu";
+import {useNavigate} from "react-router-dom";
 
 const TopNav = () => {
     const {user} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const NavButton = ({text, icon, onClick}: { text: string, icon: JSX.Element, onClick: () => void }) => {
         return (
@@ -19,6 +20,15 @@ const TopNav = () => {
         );
     }
 
+    const handleRegisterSeminar = () => {
+        navigate('/dashboard/seminars/register');
+    }
+
+    const handleLogout = () => {
+        dispatch({type: 'SIGNOUT_REQUEST'});
+        toast.info("Logged out :)");
+    }
+
     const fullName = `${user?.firstName} ${user?.lastName}`;
 
     return (
@@ -27,11 +37,11 @@ const TopNav = () => {
             <div className="flex items-center space-x-4">
                 <p className="text-lg font-semibold">Seminar Mgmt. Portal</p>
             </div>
-            <div className="flex w-1/2 items-center justify-end space-x-4">
+            <div className="flex w-1/2 flex-1 items-center justify-end space-x-4">
                 <NavButton
-                    text="Add New Seminar"
+                    text="Register for a Seminar"
                     icon={<FaPlus size={18}/>}
-                    onClick={() => toast.success("Add new seminar clicked")}
+                    onClick={handleRegisterSeminar}
                 />
                 <div className={"cursor-pointer"}>
                     <p className="text-sm font-semibold">{fullName}</p>
@@ -43,10 +53,7 @@ const TopNav = () => {
                 <NavButton
                     text=""
                     icon={<LuLogOut size={18}/>}
-                    onClick={() => {
-                        dispatch(logout());
-                        toast.info("Logged out :)");
-                    }}
+                    onClick={handleLogout}
                 />
             </div>
         </div>

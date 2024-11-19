@@ -11,10 +11,17 @@ interface ErrorResponse {
     message: string;
 }
 
-interface SeminarResponse {
+interface SeminarResponseBase {
     success: boolean;
     message: string;
     statusCode: number;
+}
+
+interface SeminarResponse extends SeminarResponseBase {
+    data: Seminar;
+}
+
+interface SeminarListResponse extends SeminarResponseBase {
     data: Seminar[];
 }
 
@@ -61,12 +68,93 @@ interface LoginResponse {
     message: string;
 }
 
+interface GenProdPostingGroup {
+    def_VAT_Prod_Posting_Group: string;
+    code: string;
+    description: string;
+    auto_Insert_Default: boolean;
+}
+
+interface VATProdPostingGroup {
+    code: string;
+    description: string;
+}
+
+interface VATProdPostingGroupsResponse {
+    success: boolean;
+    message: string;
+    statusCode: number;
+    data: VATProdPostingGroup[];
+}
+
+interface GenProdPostingGroupsResponse {
+    success: boolean;
+    message: string;
+    statusCode: number;
+    data: GenProdPostingGroup[];
+}
+
+interface Contact {
+    no: string;
+    name: string;
+    company_Name: string;
+    e_Mail: string;
+}
+
+interface ContactsReponse {
+    success: boolean;
+    message: string;
+    statusCode: number;
+    data: Contact[];
+}
+
+const ContactsReponseExample: ContactsReponse = {
+    "success": true,
+    "message": "Operation successful.",
+    "statusCode": 200,
+    "data": [
+        {
+            "no": "CT000259",
+            "name": "COMP",
+            "company_Name": "COMP",
+            "e_Mail": "ex@example.co.ke"
+        }
+    ]
+};
+
+const VATProdPostingGroupsResponseExample: VATProdPostingGroupsResponse = {
+    "success": true,
+    "message": "Operation successful.",
+    "statusCode": 200,
+    "data": [
+        {
+            "code": "NO VAT",
+            "description": "No VAT"
+        }
+    ]
+};
+
+const GenProdPostingGroupsResponseExample: GenProdPostingGroupsResponse = {
+    "success": true,
+    "message": "Operation successful.",
+    "statusCode": 200,
+    "data": [
+        {
+            "code": "MANUFACT",
+            "description": "Capacities",
+            "def_VAT_Prod_Posting_Group": "",
+            "auto_Insert_Default": true
+        }
+    ]
+};
+
 const LoginResponseExample: LoginResponse = {
     "success": true,
     "data": {
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1haW5hIiwiYWN0b3J0IjoiezY0MjY2QzE4LTlEMUUtNDIxNS1CNUZGLTgxQ0NDRjU4MjEzNn0iLCJyb2xlIjoidXNlciIsIm5iZiI6MTczMTc1NDA3NywiZXhwIjoxNzMxNzc1Njc3LCJpYXQiOjE3MzE3NTQwNzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMzIiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjMyIn0.Vt3ixVsZsYTVdCeNUY_qWRlC80XJWc_Dh1Odno6u144",
         "expiresIn": 21600,
-        "refreshToken": ""
+        "refreshToken": "",
+        "issuedAt": 0
     },
     "title": "Logging in",
     "path": "/api/auth/login",
@@ -123,51 +211,9 @@ const CustomerResponseExample: CustomerResponse = {
             "balance_Due_LCY": 0,
             "sales_LCY": 0,
             "payments_LCY": 0
-        },
-        {
-            "no": "01454545",
-            "name": "New Concepts Furniture",
-            "post_Code": "US-GA 31772",
-            "country_Region_Code": "US",
-            "phone_No": "",
-            "contact": "Ms. Tammy L. McDonald",
-            "currency_Code": "USD",
-            "blocked": " ",
-            "balance_LCY": 222241.32,
-            "balance_Due_LCY": 0,
-            "sales_LCY": 0,
-            "payments_LCY": 0
-        },
-        {
-            "no": "01905893",
-            "name": "Candoxy Canada Inc.",
-            "post_Code": "CA-ON P7B 5E2",
-            "country_Region_Code": "CA",
-            "phone_No": "",
-            "contact": "Mr. Rob Young",
-            "currency_Code": "CAD",
-            "blocked": " ",
-            "balance_LCY": 0,
-            "balance_Due_LCY": 0,
-            "sales_LCY": 0,
-            "payments_LCY": 0
-        },
-        {
-            "no": "01905899",
-            "name": "Elkhorn Airport",
-            "post_Code": "CA-MB R0M 0N0",
-            "country_Region_Code": "CA",
-            "phone_No": "",
-            "contact": "Mr. Ryan Danner",
-            "currency_Code": "CAD",
-            "blocked": " ",
-            "balance_LCY": 0,
-            "balance_Due_LCY": 0,
-            "sales_LCY": 0,
-            "payments_LCY": 0
         }
     ],
-    "count": 5,
+    "count": 2,
     "top": 5,
     "skip": 0,
     "message": "Customers fetched successfully"
@@ -185,92 +231,17 @@ const EmployeeResponseExample: EmployeeResponse = {
             "no": "JO",
             "fullName": "Jim Olive",
             "resource_No": ""
-        },
-        {
-            "no": "KH",
-            "fullName": "Katherine Hull",
-            "resource_No": "KATHERINE"
-        },
-        {
-            "no": "LT",
-            "fullName": "Lina Townsend",
-            "resource_No": "LINA"
-        },
-        {
-            "no": "MH",
-            "fullName": "Marty Horst",
-            "resource_No": "MARTY"
-        },
-        {
-            "no": "OF",
-            "fullName": "Otis Falls",
-            "resource_No": ""
-        },
-        {
-            "no": "RB",
-            "fullName": "Robin Bettencourt",
-            "resource_No": ""
-        },
-        {
-            "no": "TD",
-            "fullName": "Terry Dodds",
-            "resource_No": "TERRY"
         }
     ],
-    "count": 8,
+    "count": 2,
     "message": "Employees fetched successfully"
 };
 
-const SeminarResponseExample: SeminarResponse = {
+const SeminarResponseExample: SeminarListResponse = {
     "success": true,
     "message": "Operation successful.",
     "statusCode": 200,
     "data": [
-        {
-            "no": "SEMN0003",
-            "name": "Test Seminar",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": false,
-            "gen_Prod_Posting_Group": "SERVICES",
-            "vaT_Prod_Posting_Group": "VAT25"
-        },
-        {
-            "no": "SEMN0004",
-            "name": "Seminar II",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": false,
-            "gen_Prod_Posting_Group": "SERVICES",
-            "vaT_Prod_Posting_Group": "VAT25"
-        },
-        {
-            "no": "SEMN0009",
-            "name": "From Swagger",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": false,
-            "gen_Prod_Posting_Group": "SERVICES",
-            "vaT_Prod_Posting_Group": "VAT25"
-        },
-        {
-            "no": "SEMN0012",
-            "name": "Hallo hallo",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": false,
-            "gen_Prod_Posting_Group": "SERVICES",
-            "vaT_Prod_Posting_Group": "VAT25"
-        },
-        {
-            "no": "SEMN0013",
-            "name": "This is an edit from Swagger",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": false,
-            "gen_Prod_Posting_Group": "",
-            "vaT_Prod_Posting_Group": ""
-        },
         {
             "no": "SEMN0014",
             "name": "This is also an edit from Swagger",
@@ -288,24 +259,6 @@ const SeminarResponseExample: SeminarResponse = {
             "blocked": true,
             "gen_Prod_Posting_Group": "",
             "vaT_Prod_Posting_Group": ""
-        },
-        {
-            "no": "SEMN0016",
-            "name": "hgh erkfgh",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": true,
-            "gen_Prod_Posting_Group": "",
-            "vaT_Prod_Posting_Group": ""
-        },
-        {
-            "no": "SEMN0020",
-            "name": "vrk mel",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": false,
-            "gen_Prod_Posting_Group": "",
-            "vaT_Prod_Posting_Group": ""
         }
     ]
 };
@@ -313,16 +266,26 @@ const SeminarResponseExample: SeminarResponse = {
 export type {
     ErrorResponse,
     SeminarResponse,
+    SeminarListResponse,
     EmployeeResponse,
     CustomerResponse,
     UserResponse,
     UsersResponse,
-    LoginResponse
+    LoginResponse,
+    GenProdPostingGroup,
+    VATProdPostingGroup,
+    VATProdPostingGroupsResponse,
+    GenProdPostingGroupsResponse,
+    Contact,
+    ContactsReponse
 };
 export {
     SeminarResponseExample,
     EmployeeResponseExample,
     CustomerResponseExample,
     UserResponseExample,
-    LoginResponseExample
+    LoginResponseExample,
+    VATProdPostingGroupsResponseExample,
+    GenProdPostingGroupsResponseExample,
+    ContactsReponseExample
 };

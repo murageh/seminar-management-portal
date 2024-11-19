@@ -60,10 +60,10 @@ function RegisterPage() {
             <div className="lg:w-1/2">
                 <Form method="post" onSubmit={handleSubmit}>
                     <div className="space-y-4">
-                        <InputField id="username" label="Username" name="username" required/>
-                        <InputField id="password" label="Password" name="password" type="password" required/>
-                        <Button type="submit" variant="primary" fullWidth icon={<FaUserPlus/>}
-                                alignment="center" iconPosition="left" disabled={isRegistering}>
+                        <InputField type="text" id="username" label="Username" name="username" required/>
+                        <InputField type="password" id="password" label="Password" name="password" required/>
+                        <Button type="submit" variant="primary" fullWidth icon={<FaUserPlus/>} alignment="center"
+                                iconPosition="left" disabled={isRegistering}>
                             {isRegistering ? "Registering..." : "Register"}
                         </Button>
                     </div>

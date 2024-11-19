@@ -7,9 +7,11 @@ import AuthLayout from "./layouts/auth/AuthLayout.tsx";
 import RootLayout from "./layouts/RootLayout.tsx";
 import LoginPage from "./pages/auth/Login.tsx";
 import RegisterPage from "./pages/auth/Register.tsx";
-import {SeminarPage} from "./pages/SeminarPage.tsx";
+import {SeminarPage} from "./pages/seminars/SeminarPage.tsx";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
 import {CustomerPage} from "./pages/CustomerPage.tsx";
+import SeminarForm from "./pages/seminars/SeminarForm.tsx";
+import SeminarRegistrationForm from "./pages/seminars/SeminarRegistrationForm.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -22,6 +24,10 @@ const router = createBrowserRouter(
                 <Route path="" element={<DashboardLayout/>}>
                     <Route index element={<SeminarPage/>}/>
                     <Route path="seminars" element={<SeminarPage/>}/>
+                    {/*<Route path="seminar/new" element={<SeminarForm mode={'edit'}/>}/>*/}
+                    <Route path="seminars/register" element={<SeminarRegistrationForm/>}/>
+                    <Route path="seminars/register/:no" element={<SeminarRegistrationForm/>}/>
+                    <Route path="seminars/:no" element={<SeminarForm mode={'view'}/>}/>
                     <Route path="employees" element={<EmployeePage/>}/>
                     <Route path="customers" element={<CustomerPage/>}/>
                 </Route>

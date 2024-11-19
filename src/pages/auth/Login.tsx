@@ -56,8 +56,8 @@ function LoginPage() {
                     <div className="space-y-4">
                         <InputField id="username" label="Username" name="username" required/>
                         <InputField id="password" label="Password" name="password" type="password" required/>
-                        <Button type="submit" variant="primary" fullWidth icon={<FaSignInAlt/>}
-                                alignment="center" iconPosition="left" disabled={isLoading}>
+                        <Button type="submit" variant="primary" fullWidth icon={<FaSignInAlt/>} alignment="center"
+                                iconPosition="left" disabled={isLoading}>
                             {isLoading ? "Signing in..." : "Sign In"}
                         </Button>
                     </div>
