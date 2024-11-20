@@ -9,5 +9,5 @@ export default defineConfig({
             "@": path.resolve(__dirname, "../"),
         },
     },
-  plugins: [react()],
+    plugins: [react()],
 })

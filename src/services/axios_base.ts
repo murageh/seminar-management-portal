@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {ErrorResponse} from "../dtos/AppResponse.ts";
+import {toast} from "react-toastify";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL as string | undefined;
 if (!baseURL) {
@@ -50,6 +51,7 @@ axiosInstance.interceptors.response.use(
                 case 401:
                     console.error('Unauthorized access - perhaps you need to log in?');
                     // Handle 401 errors (Unauthorized)
+                    toast.warning('Unauthorized access - perhaps you need to log in?');
                     break;
                 case 403:
                     console.error('Forbidden - you do not have permission to access this resource.');

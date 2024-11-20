@@ -18,7 +18,14 @@ interface LoginRequest {
     password: string;
 }
 
-interface UpdateSeminarRequest {
+interface NewSeminarRegistrationRequest {
+    semNo: string;
+    companyNo: string;
+    participantContactNo: string;
+    confirmed: boolean;
+}
+
+interface UpdateRegistrationRequest {
     no: string;
     blocked: boolean;
     vaT_Prod_Posting_Group: string;
@@ -28,14 +35,4 @@ interface UpdateSeminarRequest {
     gen_Prod_Posting_Group: string
 }
 
-const NewUserRequestExample: NewUserRequest = {
-    "username": "string",
-    "password": "string",
-    "email": "user@example.com",
-    "firstName": "string",
-    "lastName": "string",
-    "title": "string"
-};
-
-export type {NewUserRequest, LoginRequest, UpdateUserRequest, UpdateSeminarRequest};
-export {NewUserRequestExample};
+export type {NewUserRequest, LoginRequest, UpdateUserRequest, NewSeminarRegistrationRequest, UpdateRegistrationRequest};

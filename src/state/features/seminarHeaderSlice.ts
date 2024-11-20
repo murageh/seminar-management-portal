@@ -1,45 +1,52 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../store';
-import {Seminar} from "../../dtos/Seminar.ts";
+import {SeminarHeader} from "../../dtos/SeminarHeader.ts";
 import {GenProdPostingGroup, VATProdPostingGroup} from "../../dtos/AppResponse.ts";
 
 interface SeminarStore {
-    seminars: Seminar[];
+    seminarHeaders: SeminarHeader[];
     genPostingGroups: GenProdPostingGroup[];
     vatPostingGroups: VATProdPostingGroup[];
     error?: string;
 }
 
 const initialState: SeminarStore = {
-    seminars: [],
+    seminarHeaders: [],
     genPostingGroups: [],
     vatPostingGroups: [],
     error: undefined,
 };
 
-export const seminarSlice = createSlice({
+export const seminarHeaderSlice = createSlice({
     name: 'seminar',
     initialState,
     reducers: {
-        setSeminars: (state, action: PayloadAction<Seminar[]>) => {
-            state.seminars = action.payload;
+        setSeminarHeaders: (state, action: PayloadAction<SeminarHeader[]>) => {
+            action.payload = action.payload.filter(s => !!s.no);
+            state.seminarHeaders = action.payload;
         },
-        addSeminar: (state, action: PayloadAction<Seminar>) => {
-            state.seminars.push(action.payload);
+        addSeminarHeader: (state, action: PayloadAction<SeminarHeader>) => {
+            if (!action.payload.no) return;
+            state.seminarHeaders.push(action.payload);
         },
-        updateSeminar: (state, action: PayloadAction<Seminar>) => {
-            const index = state.seminars.findIndex(s => s.no === action.payload.no);
+        updateOrAddSeminarHeader: (state, action: PayloadAction<SeminarHeader>) => {
+            if (!action.payload.no) return;
+            const index = state.seminarHeaders.findIndex(s => s.no === action.payload.no);
             if (index !== -1) {
-                state.seminars[index] = action.payload;
+                state.seminarHeaders[index] = action.payload;
+            } else {
+                state.seminarHeaders.push(action.payload);
             }
         },
-        deleteSeminar: (state, action: PayloadAction<string>) => {
-            state.seminars = state.seminars.filter(s => s.no !== action.payload);
+        deleteSeminarHeader: (state, action: PayloadAction<string>) => {
+            state.seminarHeaders = state.seminarHeaders.filter(s => s.no !== action.payload);
         },
         setGenPostingGroups: (state, action: PayloadAction<GenProdPostingGroup[]>) => {
+            action.payload = action.payload.filter(g => !!g.code);
             state.genPostingGroups = action.payload;
         },
         setVatPostingGroups: (state, action: PayloadAction<VATProdPostingGroup[]>) => {
+            action.payload = action.payload.filter(v => !!v.code);
             state.vatPostingGroups = action.payload;
         },
         removeGenPostingGroup: (state, action: PayloadAction<GenProdPostingGroup>) => {
@@ -64,10 +71,10 @@ export const seminarSlice = createSlice({
 });
 
 export const {
-    setSeminars,
-    addSeminar,
-    updateSeminar,
-    deleteSeminar,
+    setSeminarHeaders,
+    addSeminarHeader,
+    updateOrAddSeminarHeader,
+    deleteSeminarHeader,
     setGenPostingGroups,
     setVatPostingGroups,
     removeGenPostingGroup,
@@ -76,11 +83,11 @@ export const {
     clearVatPostingGroups,
     setError,
     clearError,
-} = seminarSlice.actions;
+} = seminarHeaderSlice.actions;
 
-export const selectSeminars = (state: RootState) => state.seminar.seminars;
+export const selectSeminars = (state: RootState) => state.seminar.seminarHeaders;
 export const seminarError = (state: RootState) => state.seminar.error;
 export const selectGenPostingGroups = (state: RootState) => state.seminar.genPostingGroups;
 export const selectVatPostingGroups = (state: RootState) => state.seminar.vatPostingGroups;
 
-export default seminarSlice.reducer;
+export default seminarHeaderSlice.reducer;

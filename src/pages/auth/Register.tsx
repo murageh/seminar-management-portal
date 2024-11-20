@@ -3,7 +3,7 @@ import {Form, useNavigate, useOutletContext} from "react-router-dom";
 import {InputField} from "../../components/base/Inputs";
 import Button from "../../components/base/Button.tsx";
 import {FaUserPlus} from "react-icons/fa";
-import {setUser} from "../../state/features/authSlice.ts";
+import {setUserAndClearToken} from "../../state/features/authSlice.ts";
 import {toast} from "react-toastify";
 import {useAppDispatch} from "../../state/hooks.ts";
 import * as authService from "../../services/authService.ts";
@@ -20,6 +20,10 @@ function RegisterPage() {
         const formData = new FormData(event.target as HTMLFormElement);
         const username = formData.get("username") as string;
         const password = formData.get("password") as string;
+        const email = formData.get("email") as string;
+        const firstName = formData.get("firstName") as string;
+        const lastName = formData.get("lastName") as string;
+        const title = formData.get("title") as string;
 
         if (!username || !password) {
             handleAuthError("You must provide both a username and password.");
@@ -31,10 +35,10 @@ function RegisterPage() {
             const userResponse = await authService.register({
                 username,
                 password,
-                email: "",
-                firstName: "",
-                lastName: "",
-                title: null
+                email,
+                firstName,
+                lastName,
+                title: title || null
             });
             const success = !!userResponse.data?.username;
             flushSync(() => setIsRegistering(false));
@@ -42,7 +46,7 @@ function RegisterPage() {
                 handleAuthError("Registration failed. Please try again.");
                 return;
             }
-            dispatch(setUser(userResponse.data));
+            dispatch(setUserAndClearToken(userResponse.data));
             toast.success("Registration successful!");
             setTimeout(() => navigate("/dashboard"), 0);
         } catch (error: any) {
@@ -51,23 +55,44 @@ function RegisterPage() {
         }
     };
 
+    const handleLoginLinkClick = () => {
+        navigate("/auth/login");
+    }
+
     return (
-        <div className="flex flex-col lg:flex-row">
-            <div className="lg:w-1/2 mb-6 lg:mb-0 flex flex-col items-baseline justify-between px-4 py-4">
-                <h1 className="text-left text-2xl font-semibold text-gray-800">Join us.</h1>
-                <p className="text-left text-gray-600 mt-2">Please register to create your account.</p>
-            </div>
-            <div className="lg:w-1/2">
-                <Form method="post" onSubmit={handleSubmit}>
-                    <div className="space-y-4">
-                        <InputField type="text" id="username" label="Username" name="username" required/>
-                        <InputField type="password" id="password" label="Password" name="password" required/>
-                        <Button type="submit" variant="primary" fullWidth icon={<FaUserPlus/>} alignment="center"
-                                iconPosition="left" disabled={isRegistering}>
-                            {isRegistering ? "Registering..." : "Register"}
-                        </Button>
-                    </div>
-                </Form>
+        <div
+            className="relative bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full before:content-['CRONUS'] before:absolute before:top-[-17%] before:left-[-5%] before:text-9xl before:font-gothic before:text-white before:opacity-10 before:rotate-[-0deg]">
+            <div className="flex flex-col lg:flex-row">
+                <div className="lg:w-1/2 mb-6 lg:mb-0 flex flex-col items-baseline justify-between px-4 py-4">
+                    <h1 className="text-left text-2xl font-semibold text-gray-800">Join us.</h1>
+                    <p className="text-left text-gray-600 mt-2">Please register to create your account.<br/><strong>Seminar
+                        Management System</strong></p>
+                </div>
+                <div className="lg:w-1/2">
+                    <Form method="post" onSubmit={handleSubmit}>
+                        <div className="space-y-4">
+                            <InputField fullWidth={false} id="title" label="Title" name="title"
+                                        placeholder="Mr./ Mrs./ Ms. ,etc."/>
+                            <div className="flex space-x-4">
+                                <InputField id="firstName" label="First Name" name="firstName" placeholder="John"
+                                            required/>
+                                <InputField id="lastName" label="Last Name" name="lastName" placeholder="Doe" required/>
+                            </div>
+                            <InputField type="text" id="username" label="Username" name="username" placeholder="johndoe"
+                                        required/>
+                            <InputField type="email" id="email" label="Email" name="email"
+                                        placeholder="johndoe@example.com" required/>
+                            <InputField type="password" id="password" label="Password" name="password" required/>
+                            <Button type="submit" variant="primary" fullWidth icon={<FaUserPlus/>} alignment="center"
+                                    iconPosition="left" disabled={isRegistering}>
+                                {isRegistering ? "Registering..." : "Register"}
+                            </Button>
+                            <p className="text-center text-gray-600">Already have an account? <a href="#"
+                                                                                                 onClick={handleLoginLinkClick}>Log
+                                in here</a></p>
+                        </div>
+                    </Form>
+                </div>
             </div>
         </div>
     );

@@ -25,7 +25,7 @@ export const createUser = async (newUser: NewUserRequest): Promise<UserResponse>
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
+            throw new Error(errorResponse.message || errorResponse.title);
         }
         throw new Error('An unexpected error occurred while creating the user.');
     }
@@ -39,7 +39,7 @@ export const updateUser = async (username: string, updatedUser: UpdateUserReques
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
+            throw new Error(errorResponse.message || errorResponse.title);
         }
         throw new Error('An unexpected error occurred while updating the user.');
     }

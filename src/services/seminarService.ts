@@ -7,76 +7,66 @@ import {
     SeminarResponse,
     VATProdPostingGroupsResponse
 } from '../dtos/AppResponse.ts';
-import {Seminar} from '../dtos/Seminar.ts';
 import axios from 'axios';
+import {NewSeminarRegistrationRequest} from "../dtos/AppRequest.ts";
 
-// Get all seminars
-export const getSeminars = async (): Promise<SeminarListResponse> => {
+// Get all seminarHeaders
+export const getSeminarHeaders = async (): Promise<SeminarListResponse> => {
     try {
-        const response = await axiosInstance.get<SeminarListResponse>('/seminar');
+        const response = await axiosInstance.get<SeminarListResponse>('/seminar/AvailableSeminars');
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
             throw new Error(errorResponse.message);
         }
-        throw new Error('An unexpected error occurred while fetching seminars.');
+        throw new Error('An unexpected error occurred while fetching seminar headers.');
     }
 };
 
-// Get seminar by no
-export const getSeminar = async (seminarNo: string): Promise<SeminarResponse> => {
+// Get seminar header by no
+export const getSeminarHeader = async (seminarNo: string): Promise<SeminarResponse> => {
     try {
-        const response = await axiosInstance.get<SeminarResponse>(`/seminar/${seminarNo}`);
+        const response = await axiosInstance.get<SeminarResponse>(`/seminar/AvailableSeminars/${seminarNo}`);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
             throw new Error(errorResponse.message);
         }
-        throw new Error('An unexpected error occurred while fetching seminars.');
+        throw new Error('An unexpected error occurred while fetching seminar headers.');
     }
 };
 
-// Create a new seminar
-// TODO: Update type of newSeminar once implemented
-export const createSeminar = async (newSeminar: any): Promise<SeminarListResponse> => {
+// Create a new seminar registration
+export const createSeminarRegistration = async (newRegistration: NewSeminarRegistrationRequest): Promise<SeminarResponse> => {
     try {
-        const response = await axiosInstance.post<SeminarListResponse>('/seminar', newSeminar);
+        const response = await axiosInstance.post<SeminarResponse>('/seminar/registration', newRegistration);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
+            throw new Error(errorResponse.message || errorResponse.title);
         }
-        throw new Error('An unexpected error occurred while creating the seminar.');
+        throw new Error('An unexpected error occurred while creating the seminar registration.');
     }
 };
 
-// Update an existing seminar
-export const updateSeminar = async (no: string, updatedSeminar: Seminar): Promise<SeminarListResponse> => {
+// Update an existing registration
+export const updateSeminarRegistration = async (semNo: string, lineNo: string, confirmed: boolean): Promise<SeminarResponse> => {
     try {
-        const response = await axiosInstance.put<SeminarListResponse>(`/seminar/${no}`, updatedSeminar);
+        const response = await axiosInstance.patch<SeminarResponse>(`/seminar/registration`, {
+            semNo,
+            lineNo,
+            confirmed
+        });
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
+            throw new Error(errorResponse.message || errorResponse.title);
         }
-        throw new Error('An unexpected error occurred while updating the seminar.');
-    }
-};
-
-// Delete a seminar by no
-export const deleteSeminar = async (no: string): Promise<void> => {
-    try {
-        await axiosInstance.delete(`/seminar/${no}`);
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
-        }
-        throw new Error('An unexpected error occurred while deleting the seminar.');
+        throw new Error('An unexpected error occurred while updating the seminar registration.');
     }
 };
 

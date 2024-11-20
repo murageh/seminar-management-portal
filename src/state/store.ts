@@ -1,6 +1,6 @@
 import {Action, combineReducers, configureStore} from '@reduxjs/toolkit';
 import authSlice from '../state/features/authSlice';
-import seminarSlice from "./features/seminarSlice";
+import seminarSlice from "./features/seminarHeaderSlice.ts";
 import employeeSlice from "./features/employeeSlice";
 import customerSlice from "./features/customerSlice";
 // redux-persist

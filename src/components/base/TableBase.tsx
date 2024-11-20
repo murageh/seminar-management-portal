@@ -1,8 +1,15 @@
 import React from 'react';
 
-interface TableBaseProps<T> {
+export type TableAccessor<T> = keyof T | ((item: T) => string);
+export type TableColumn<T> = {
+    header: string;
+    accessor: TableAccessor<T>;
+    underline?: 'none' | 'solid' | 'dashed';
+}
+
+export type TableBaseProps<T> = {
     data: T[];
-    columns: { header: string, accessor: keyof T, underline?: 'none' | 'solid' | 'dashed' }[];
+    columns: TableColumn<T>[];
     onRowClick?: (item: T) => void;
 }
 
@@ -24,7 +31,7 @@ const TableBase = <T, >({data, columns, onRowClick}: TableBaseProps<T>) => {
                 <tr key={index} onClick={() => onRowClick && onRowClick(item)} className="cursor-pointer">
                     {columns.map((column) => (
                         <td key={column.accessor as string}
-                            className={`border-b border-slate-200 p-4 pl-8 text-slate-700 ${column.underline ? `underline decoration-${column.underline} underline-offset-8 cursor-pointer` : ''}`}>
+                            className={`border-b border-slate-200 p-4 pl-4 text-slate-700 ${column.underline ? `underline decoration-${column.underline} underline-offset-8 cursor-pointer` : ''}`}>
                             {/* @ts-expect-error Accessor could be null */}
                             {item[column.accessor] || '-'}
                         </td>

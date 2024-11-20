@@ -44,24 +44,34 @@ function LoginPage() {
         }
     };
 
+    const handleRegisterLinkClick = () => {
+        navigate("/auth/register");
+    }
+
     return (
-        <div className="flex flex-col lg:flex-row">
-            <div className="lg:w-1/2 mb-6 lg:mb-0 flex flex-col items-baseline justify-between px-4 py-4">
-                <h1 className="text-left text-2xl font-semibold text-gray-800">Welcome back.</h1>
-                <p className="text-left text-gray-600 mt-2">Please log in to continue to the<br/><strong>Seminar
-                    Management dashboard.</strong></p>
-            </div>
-            <div className="lg:w-1/2">
-                <Form method="post" onSubmit={handleSubmit}>
-                    <div className="space-y-4">
-                        <InputField id="username" label="Username" name="username" required/>
-                        <InputField id="password" label="Password" name="password" type="password" required/>
-                        <Button type="submit" variant="primary" fullWidth icon={<FaSignInAlt/>} alignment="center"
-                                iconPosition="left" disabled={isLoading}>
-                            {isLoading ? "Signing in..." : "Sign In"}
-                        </Button>
-                    </div>
-                </Form>
+        <div
+            className="relative bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full before:content-['CRONUS'] before:absolute before:top-[-33%] before:left-[-5%] before:text-9xl before:font-gothic before:text-white before:opacity-10 before:rotate-[-0deg]">
+            <div className="flex flex-col lg:flex-row">
+                <div className="lg:w-1/2 mb-6 lg:mb-0 flex flex-col items-baseline justify-between px-4 py-4">
+                    <h1 className="text-left text-2xl font-semibold text-gray-800">Welcome back.</h1>
+                    <p className="text-left text-gray-600 mt-2">Please log in to continue to the<br/><strong>Seminar
+                        Management dashboard.</strong></p>
+                </div>
+                <div className="lg:w-1/2">
+                    <Form method="post" onSubmit={handleSubmit}>
+                        <div className="space-y-4">
+                            <InputField id="username" label="Username" name="username" placeholder="johndoe" required/>
+                            <InputField id="password" label="Password" name="password" type="password" required/>
+                            <Button type="submit" variant="primary" fullWidth icon={<FaSignInAlt/>} alignment="center"
+                                    iconPosition="left" disabled={isLoading}>
+                                {isLoading ? "Signing in..." : "Sign In"}
+                            </Button>
+                            <p className="text-center text-gray-600">Don't have an account? <a href="#"
+                                                                                               onClick={handleRegisterLinkClick}>Register
+                                here</a></p>
+                        </div>
+                    </Form>
+                </div>
             </div>
         </div>
     );

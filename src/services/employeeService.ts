@@ -26,7 +26,7 @@ export const createEmployee = async (newEmployee: any): Promise<EmployeeResponse
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
+            throw new Error(errorResponse.message || errorResponse.title);
         }
         throw new Error('An unexpected error occurred while creating the employee.');
     }
@@ -40,7 +40,7 @@ export const updateEmployee = async (no: string, updatedEmployee: Employee): Pro
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
+            throw new Error(errorResponse.message || errorResponse.title);
         }
         throw new Error('An unexpected error occurred while updating the employee.');
     }

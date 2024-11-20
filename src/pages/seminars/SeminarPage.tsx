@@ -1,22 +1,22 @@
 import React, {useEffect} from 'react';
-import SeminarTable from '../../layouts/tables/SeminarTable.tsx';
+import SeminarHeaderTable from '../../layouts/tables/SeminarHeaderTable.tsx';
 import {useAppDispatch, useAppSelector} from "../../state/hooks.ts";
 import * as seminarService from "../../services/seminarService.ts";
 import * as customerService from "../../services/customerService.ts";
-import {setGenPostingGroups, setSeminars, setVatPostingGroups} from "../../state/features/seminarSlice.ts";
+import {setGenPostingGroups, setSeminarHeaders, setVatPostingGroups} from "../../state/features/seminarHeaderSlice.ts";
 import {setCustomers} from "../../state/features/customerSlice.ts";
 
 export const SeminarPage = () => {
-    const {seminars, error} = useAppSelector(state => state.seminar);
+    const {seminarHeaders, error} = useAppSelector(state => state.seminar);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const fetchSeminars = async () => {
+        const fetchSeminarHeaders = async () => {
             try {
                 // TODO: Change this
-                seminarService.getSeminars()
+                seminarService.getSeminarHeaders()
                     .then((response) => {
-                        dispatch(setSeminars(response.data));
+                        dispatch(setSeminarHeaders(response.data));
                     });
                 seminarService.getGenProdPostingGroups()
                     .then((response) => {
@@ -31,18 +31,18 @@ export const SeminarPage = () => {
                         dispatch(setCustomers(response.customers));
                     });
             } catch (error) {
-                console.error('Error fetching seminars:', error);
+                console.error('Error fetching seminarHeaders:', error);
             }
         };
 
-        fetchSeminars();
-    }, []);
+        void fetchSeminarHeaders();
+    }, [dispatch]);
 
     return (
         <>
-            <h1 className="text-3xl font-bold sticky top-0">Seminars</h1>
+            <h1 className="text-3xl font-bold sticky top-0">Available seminars</h1>
             <div className="mt-8 w-full flex-1 h-0 overflow-auto bg-white p-4 rounded-lg shadow-md">
-                <SeminarTable seminars={seminars}/>
+                <SeminarHeaderTable seminarHeaders={seminarHeaders}/>
             </div>
         </>
     );

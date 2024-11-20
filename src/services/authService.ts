@@ -10,7 +10,7 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
+            throw new Error(errorResponse.message || errorResponse.title);
         }
         throw new Error('An unexpected error occurred during login.');
     }
@@ -23,7 +23,7 @@ export const register = async (credentials: NewUserRequest): Promise<UserRespons
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
+            throw new Error(errorResponse.message || errorResponse.title);
         }
         throw new Error('An unexpected error occurred during registration.');
     }

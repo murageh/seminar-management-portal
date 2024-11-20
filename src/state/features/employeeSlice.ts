@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Employee} from '../../models/Employee';
 import {RootState} from '../store';
+import {Employee} from "../../dtos/Employee.ts";
 
 interface EmployeeStore {
     employees: Employee[];
@@ -17,19 +17,22 @@ export const employeeSlice = createSlice({
     initialState,
     reducers: {
         setEmployees: (state, action: PayloadAction<Employee[]>) => {
+            action.payload = action.payload.filter(e => !!e.no);
             state.employees = action.payload;
         },
         addEmployee: (state, action: PayloadAction<Employee>) => {
+            if (!action.payload.no) return;
             state.employees.push(action.payload);
         },
         updateEmployee: (state, action: PayloadAction<Employee>) => {
-            const index = state.employees.findIndex(e => e.id === action.payload.id);
+            if (!action.payload.no) return;
+            const index = state.employees.findIndex(e => e.no === action.payload.no);
             if (index !== -1) {
                 state.employees[index] = action.payload;
             }
         },
         deleteEmployee: (state, action: PayloadAction<string>) => {
-            state.employees = state.employees.filter(e => e.id !== action.payload);
+            state.employees = state.employees.filter(e => e.no !== action.payload);
         },
         setError: (state, action: PayloadAction<string | undefined>) => {
             state.error = action.payload;

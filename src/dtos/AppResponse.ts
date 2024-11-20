@@ -1,7 +1,8 @@
-import {Seminar} from "./Seminar.ts";
+import {SeminarHeader} from "./SeminarHeader.ts";
 import {Employee} from "./Employee.ts";
 import {Customer} from "./Customer.ts";
 import {JWTToken, User} from "./User.ts";
+import {MyRegistration} from "./MyRegistration.ts";
 
 interface ErrorResponse {
     success: boolean;
@@ -18,11 +19,11 @@ interface SeminarResponseBase {
 }
 
 interface SeminarResponse extends SeminarResponseBase {
-    data: Seminar;
+    data: SeminarHeader;
 }
 
 interface SeminarListResponse extends SeminarResponseBase {
-    data: Seminar[];
+    data: SeminarHeader[];
 }
 
 interface EmployeeResponse {
@@ -107,6 +108,37 @@ interface ContactsReponse {
     statusCode: number;
     data: Contact[];
 }
+
+interface MyRegistrationsResponse {
+    success: boolean;
+    data: MyRegistration[];
+    title: string;
+    path: string;
+    statusCode: number;
+    message: string;
+}
+
+const MyRegistrationsResponseExample: MyRegistrationsResponse = {
+    "success": true,
+    "data": [
+        {
+            "seminarNo": "SEMR0020",
+            "companyNo": "C00010",
+            "participantContactNo": "CT000260",
+            "participantName": "Bwana Tech Guy from EABL 💀",
+            "toInvoice": true,
+            "registrationDate": "2024-11-20T00:00:00",
+            "amount": 25000,
+            "confirmationStatus": "Pending",
+            "discountAmount": 0,
+            "lineNo": 0
+        }
+    ],
+    "title": "Get Seminar Registrations Success",
+    "path": "/api/Seminar/MyRegistrations",
+    "statusCode": 200,
+    "message": "Operation successful."
+};
 
 const ContactsReponseExample: ContactsReponse = {
     "success": true,
@@ -243,22 +275,15 @@ const SeminarResponseExample: SeminarListResponse = {
     "statusCode": 200,
     "data": [
         {
-            "no": "SEMN0014",
-            "name": "This is also an edit from Swagger",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": false,
-            "gen_Prod_Posting_Group": "SERVICES",
-            "vaT_Prod_Posting_Group": "VAT25"
-        },
-        {
-            "no": "SEMN0015",
-            "name": "hgh erkfgh",
-            "seminarDuration": 0,
-            "seminarPrice": 0,
-            "blocked": true,
-            "gen_Prod_Posting_Group": "",
-            "vaT_Prod_Posting_Group": ""
+            "no": "SEMR0020",
+            "starting_Date": "0001-01-01T00:00:00",
+            "seminar_No": "SEMN0023",
+            "seminar_Name": "Intro",
+            "status": "Planning",
+            "duration": 2,
+            "maximum_Participants": 100,
+            "room_Resource_No": "",
+            "registered_Participants": 0
         }
     ]
 };
@@ -277,7 +302,7 @@ export type {
     VATProdPostingGroupsResponse,
     GenProdPostingGroupsResponse,
     Contact,
-    ContactsReponse
+    ContactsReponse,
 };
 export {
     SeminarResponseExample,
@@ -287,5 +312,6 @@ export {
     LoginResponseExample,
     VATProdPostingGroupsResponseExample,
     GenProdPostingGroupsResponseExample,
-    ContactsReponseExample
+    ContactsReponseExample,
+    MyRegistrationsResponseExample
 };

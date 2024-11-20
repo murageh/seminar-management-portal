@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Customer} from '../../models/Customer';
 import {RootState} from '../store';
+import {Customer} from "../../dtos/Customer.ts";
 
 interface CustomerStore {
     customers: Customer[];
@@ -17,19 +17,22 @@ export const customerSlice = createSlice({
     initialState,
     reducers: {
         setCustomers: (state, action: PayloadAction<Customer[]>) => {
+            action.payload = action.payload.filter(c => !!c.no);
             state.customers = action.payload;
         },
         addCustomer: (state, action: PayloadAction<Customer>) => {
+            if (!action.payload.no) return;
             state.customers.push(action.payload);
         },
         updateCustomer: (state, action: PayloadAction<Customer>) => {
-            const index = state.customers.findIndex(c => c.id === action.payload.id);
+            if (!action.payload.no) return;
+            const index = state.customers.findIndex(c => c.no === action.payload.no);
             if (index !== -1) {
                 state.customers[index] = action.payload;
             }
         },
         deleteCustomer: (state, action: PayloadAction<string>) => {
-            state.customers = state.customers.filter(c => c.id !== action.payload);
+            state.customers = state.customers.filter(c => c.no !== action.payload);
         },
         setError: (state, action: PayloadAction<string | undefined>) => {
             state.error = action.payload;

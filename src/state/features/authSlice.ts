@@ -25,6 +25,11 @@ export const authSlice = createSlice({
             state.user = action.payload;
             state.loggedIn = true;
         },
+        setUserAndClearToken: (state, action: PayloadAction<User>) => {
+            state.user = action.payload;
+            state.loggedIn = true;
+            state.token = null;
+        },
         setToken: (state, action: PayloadAction<JWTToken | null>) => {
             state.token = action.payload;
             state.loggedIn = !!state.token;
@@ -57,6 +62,7 @@ export const authSlice = createSlice({
 
 export const {
     setUser,
+    setUserAndClearToken,
     setToken,
     setLoggedIn,
     logout,
