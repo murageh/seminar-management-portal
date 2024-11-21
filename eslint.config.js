@@ -39,6 +39,8 @@ export default tseslint.config(
             ],
             'react/jsx-uses-react': 'off',
             'react/react-in-jsx-scope': 'off',
+            "@typescript-eslint/no-explicit-any": ["warn"],
+            "@typescript-eslint/no-unused-vars": ["warn"],
 
             // // TODO: For prod
             //     ...react.configs.recommended.rules,

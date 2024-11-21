@@ -1,19 +1,19 @@
 import React from 'react';
-import SeminarHeaderTable from '../../layouts/tables/SeminarHeaderTable.tsx';
 import {useAppSelector} from "../../state/hooks.ts";
+import MyRegistrationsTable from "../../layouts/tables/MyRegistrationsTable.tsx";
+import FullScreenLoader from "../../components/loaders/FullScreenLoader.tsx";
 import {useOutletContext} from "react-router-dom";
 import {DashboardLayoutOutletContext} from "../../layouts/DashboardLayout.tsx";
-import FullScreenLoader from "../../components/loaders/FullScreenLoader.tsx";
 import {RefreshButton} from "../../components/base/RefreshButton.tsx";
 
-export const SeminarPage = () => {
-    const {seminar: {seminarHeaders, loading}} = useAppSelector(state => state);
+export const MyRegistrationsPage = () => {
+    const {seminar: {registrations, loading: semLoading}, auth: {user}} = useAppSelector(state => state);
     const {refresh} = useOutletContext<DashboardLayoutOutletContext>();
 
     return (
         <>
             {
-                loading ?
+                semLoading ?
                     <FullScreenLoader/>
                     :
                     <>
@@ -21,9 +21,9 @@ export const SeminarPage = () => {
                         <RefreshButton onClick={() => refresh()}/>
                     </>
             }
-            <h1 className="text-3xl font-bold sticky top-0">Available seminars</h1>
+            <h1 className="text-3xl font-bold sticky top-0">My registrations</h1>
             <div className="mt-8 w-full flex-1 h-0 overflow-auto bg-white p-4 rounded-lg shadow-md">
-                <SeminarHeaderTable seminarHeaders={seminarHeaders}/>
+                <MyRegistrationsTable registrations={semLoading ? [] : registrations}/>
             </div>
         </>
     );

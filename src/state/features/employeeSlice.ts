@@ -5,11 +5,13 @@ import {Employee} from "../../dtos/Employee.ts";
 interface EmployeeStore {
     employees: Employee[];
     error?: string;
+    loading: boolean;
 }
 
 const initialState: EmployeeStore = {
     employees: [],
     error: undefined,
+    loading: false,
 };
 
 export const employeeSlice = createSlice({
@@ -17,15 +19,16 @@ export const employeeSlice = createSlice({
     initialState,
     reducers: {
         setEmployees: (state, action: PayloadAction<Employee[]>) => {
+            if (!Array.isArray(action.payload)) return;
             action.payload = action.payload.filter(e => !!e.no);
             state.employees = action.payload;
         },
         addEmployee: (state, action: PayloadAction<Employee>) => {
-            if (!action.payload.no) return;
+            if (!action.payload?.no) return;
             state.employees.push(action.payload);
         },
         updateEmployee: (state, action: PayloadAction<Employee>) => {
-            if (!action.payload.no) return;
+            if (!action.payload?.no) return;
             const index = state.employees.findIndex(e => e.no === action.payload.no);
             if (index !== -1) {
                 state.employees[index] = action.payload;
@@ -40,6 +43,9 @@ export const employeeSlice = createSlice({
         clearError: (state) => {
             state.error = undefined;
         },
+        setLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading = action.payload;
+        }
     },
 });
 
@@ -50,6 +56,7 @@ export const {
     deleteEmployee,
     setError,
     clearError,
+    setLoading,
 } = employeeSlice.actions;
 
 export const selectEmployees = (state: RootState) => state.employee.employees;

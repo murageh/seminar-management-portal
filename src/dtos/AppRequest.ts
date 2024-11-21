@@ -2,14 +2,11 @@ interface NewUserRequest {
     username: string;
     password: string;
     email: string;
-    firstName: string;
-    lastName: string;
-    title: string | null;
+    name: string;
 }
 
 interface UpdateUserRequest {
-    firstName: string | null;
-    lastName: string | null;
+    name: string | null;
     title: string | null;
 }
 

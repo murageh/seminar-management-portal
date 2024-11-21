@@ -1,32 +1,35 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {Navigate, useNavigate, useOutletContext, useParams} from "react-router-dom";
 import React from "react";
-import * as seminarService from "../../services/seminarService.ts";
 import Button from "../../components/base/Button.tsx";
-import {useAppDispatch, useAppSelector} from "../../state/hooks.ts";
+import {useAppSelector} from "../../state/hooks.ts";
 import PropertyTable from "../../components/base/PropertyTable.tsx";
-import {updateOrAddSeminarHeader} from "../../state/features/seminarHeaderSlice.ts";
+import FullScreenLoader from "../../components/loaders/FullScreenLoader.tsx";
+import {RefreshButton} from "../../components/base/RefreshButton.tsx";
+import {DashboardLayoutOutletContext} from "../../layouts/DashboardLayout.tsx";
 
 const SeminarDetail: React.FC = () => {
     const navigate = useNavigate();
     const {no} = useParams<{ no: string }>();
-    const {seminarHeaders} = useAppSelector(state => state.seminar);
-    const dispatch = useAppDispatch();
+    const {seminarHeaders, registrations, loading} = useAppSelector(state => state.seminar);
     const seminarHeader = seminarHeaders.find(s => s.no === no);
+    const {refresh, refreshSeminars} = useOutletContext<DashboardLayoutOutletContext>();
+    const activeRegistration = registrations.find(r => r.seminarNo === seminarHeader?.seminar_No);
 
-    React.useEffect(() => {
-        if (!seminarHeader && !no) {
-            navigate('/dashboard/seminars', {replace: true});
-            return;
+    if (!seminarHeader && !no) {
+        return <Navigate to='/dashboard/seminars' replace={true}/>;
+    }
+
+    if (!seminarHeader && no) {
+        refreshSeminars();
+    }
+
+    const handleClick = () => {
+        if (activeRegistration) {
+            navigate(`/dashboard/seminars/register/${activeRegistration.headerNo}?edit=true`);
+        } else {
+            navigate(`/dashboard/seminars/register/${seminarHeader?.no}`)
         }
-
-        if (!seminarHeader && no) {
-            seminarService.getSeminarHeader(no)
-                .then((response) => {
-                    dispatch(updateOrAddSeminarHeader(response.data));
-                });
-        }
-    }, []);
-
+    };
 
     const propertyData = [
         {property: "Seminar No", value: seminarHeader?.no || ''},
@@ -39,19 +42,29 @@ const SeminarDetail: React.FC = () => {
     ];
 
     return (
-        <div className="flex-1 w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-4">SeminarHeader Information</h1>
-            <PropertyTable data={propertyData}/>
-            <div className="flex justify-end space-x-4 mt-4">
-                <Button type="button" variant="secondary" onClick={() => navigate('/dashboard/seminars')}>
-                    Back
-                </Button>
-                <Button type="button" variant="primary"
-                        onClick={() => navigate(`/dashboard/seminars/register/${seminarHeader?.no}`)}>
-                    Register for this Seminar
-                </Button>
+        <>
+            {
+                loading ?
+                    <FullScreenLoader/>
+                    :
+                    <>
+                        {/*  Refresh button  */}
+                        <RefreshButton onClick={() => refresh()}/>
+                    </>
+            }
+            <div className="flex-1 w-full mx-auto p-4 bg-white rounded-lg shadow-md">
+                <h1 className="text-2xl font-bold mb-4">Seminar Information</h1>
+                <PropertyTable data={propertyData}/>
+                <div className="flex justify-end space-x-4 mt-4">
+                    <Button type="button" variant="primary"
+                            onClick={handleClick}>
+                        {
+                            activeRegistration ? 'View my registration' : 'Register for this Seminar'
+                        }
+                    </Button>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

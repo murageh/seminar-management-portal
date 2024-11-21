@@ -8,10 +8,11 @@ import RootLayout from "./layouts/RootLayout.tsx";
 import LoginPage from "./pages/auth/Login.tsx";
 import RegisterPage from "./pages/auth/Register.tsx";
 import {SeminarPage} from "./pages/seminars/SeminarPage.tsx";
-import {EmployeePage} from "./pages/EmployeePage.tsx";
-import {CustomerPage} from "./pages/CustomerPage.tsx";
+import {EmployeePage} from "./pages/employees/EmployeePage.tsx";
 import SeminarDetail from "./pages/seminars/SeminarDetail.tsx";
 import SeminarRegistrationForm from "./pages/seminars/SeminarRegistrationForm.tsx";
+import {MyRegistrationsPage} from "./pages/seminars/MyRegistrationsPage.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -22,17 +23,16 @@ const router = createBrowserRouter(
             </Route>
             <Route path="dashboard" element={<ProtectedRoute/>}>
                 <Route path="" element={<DashboardLayout/>}>
-                    <Route index element={<SeminarPage/>}/>
+                    <Route index element={<MyRegistrationsPage/>}/>
                     <Route path="seminars" element={<SeminarPage/>}/>
                     {/*<Route path="seminar/new" element={<SeminarDetail mode={'edit'}/>}/>*/}
                     <Route path="seminars/register" element={<SeminarRegistrationForm/>}/>
                     <Route path="seminars/register/:no" element={<SeminarRegistrationForm/>}/>
-                    <Route path="seminars/:no" element={<SeminarDetail mode={'view'}/>}/>
+                    <Route path="seminars/:no" element={<SeminarDetail/>}/>
                     <Route path="employees" element={<EmployeePage/>}/>
-                    <Route path="customers" element={<CustomerPage/>}/>
                 </Route>
             </Route>
-            <Route path="*" element={<>NotFoundPage</>}/>
+            <Route path="*" element={<NotFoundPage/>}/>
         </Route>
     )
 );

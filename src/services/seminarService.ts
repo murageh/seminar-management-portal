@@ -1,12 +1,5 @@
 import axiosInstance from './axios_base';
-import {
-    ContactsReponse,
-    ErrorResponse,
-    GenProdPostingGroupsResponse,
-    SeminarListResponse,
-    SeminarResponse,
-    VATProdPostingGroupsResponse
-} from '../dtos/AppResponse.ts';
+import {ErrorResponse, MyRegistrationsResponse, SeminarListResponse, SeminarResponse,} from '../dtos/AppResponse.ts';
 import axios from 'axios';
 import {NewSeminarRegistrationRequest} from "../dtos/AppRequest.ts";
 
@@ -53,10 +46,10 @@ export const createSeminarRegistration = async (newRegistration: NewSeminarRegis
 };
 
 // Update an existing registration
-export const updateSeminarRegistration = async (semNo: string, lineNo: string, confirmed: boolean): Promise<SeminarResponse> => {
+export const updateSeminarRegistration = async (semHeaderNo: string, lineNo: number, confirmed: boolean): Promise<SeminarResponse> => {
     try {
         const response = await axiosInstance.patch<SeminarResponse>(`/seminar/registration`, {
-            semNo,
+            semHeaderNo,
             lineNo,
             confirmed
         });
@@ -70,44 +63,16 @@ export const updateSeminarRegistration = async (semNo: string, lineNo: string, c
     }
 };
 
-// Get all VAT Product Posting Groups
-export const getVATProdPostingGroups = async (): Promise<VATProdPostingGroupsResponse> => {
+// Get my registrations. Accepts seminarHeadNo and participantContactNo
+export const getMyRegistrations = async (participantContactNo: string, seminarHeadNo?: string): Promise<MyRegistrationsResponse> => {
     try {
-        const response = await axiosInstance.get<VATProdPostingGroupsResponse>('/seminar/VATProdPostingGroups');
+        const response = await axiosInstance.get<MyRegistrationsResponse>(`/seminar/MyRegistrations?participantContactNo=${participantContactNo}&seminarHeadNo=${seminarHeadNo}`);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
             throw new Error(errorResponse.message);
         }
-        throw new Error('An unexpected error occurred while fetching VAT Product Posting Groups.');
+        throw new Error('An unexpected error occurred while fetching my registrations.');
     }
 };
-
-// Get all General Product Posting Groups
-export const getGenProdPostingGroups = async (): Promise<GenProdPostingGroupsResponse> => {
-    try {
-        const response = await axiosInstance.get<GenProdPostingGroupsResponse>('/seminar/GenProdPostingGroups');
-        return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
-        }
-        throw new Error('An unexpected error occurred while fetching General Product Posting Groups.');
-    }
-};
-
-// Get Contacts by Company Name
-export const getContactsByCompanyNo = async (companyName: string): Promise<ContactsReponse> => {
-    try {
-        const response = await axiosInstance.get<ContactsReponse>(`/seminar/contacts/${companyName}`);
-        return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message);
-        }
-        throw new Error(`An unexpected error occurred while fetching contacts from company "${companyName}"`);
-    }
-}

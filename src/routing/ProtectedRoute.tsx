@@ -1,20 +1,22 @@
 import {Navigate, Outlet} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../state/hooks.ts";
 import React from "react";
-import {logout, setUser} from "../state/features/authSlice.ts";
+import {logout, setLoading, setUser} from "../state/features/authSlice.ts";
 import {toast} from "react-toastify";
 import * as authService from "../services/authService.ts";
 import moment from "moment";
+import FullScreenLoader from "../components/loaders/FullScreenLoader.tsx";
 
 export const ProtectedRoute = () => {
     // const navigate = useNavigate();
-    const {loggedIn, user, token} = useAppSelector(state => state.auth);
+    const {loggedIn, user, token, loading: authLoading} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
     // In the case that loggedIn=true but user=null, fetch user data
     React.useEffect(() => {
         const fetchUserProfile = async () => {
             try {
+                dispatch(setLoading(true));
                 const userResponse = await authService.getProfile();
                 if (userResponse.data) {
                     dispatch(setUser(userResponse.data));
@@ -22,9 +24,11 @@ export const ProtectedRoute = () => {
                     dispatch(logout());
                     toast.error("An error occurred while fetching user data. Please log in again.");
                 }
+                dispatch(setLoading(false));
             } catch (error: any) {
                 dispatch(logout());
                 toast.error(error.message || error);
+                dispatch(setLoading(false));
             }
         }
 
@@ -46,7 +50,9 @@ export const ProtectedRoute = () => {
         }
     }, [dispatch, loggedIn, token, user]);
 
-    if (!loggedIn) {
+    if (authLoading) {
+        return <FullScreenLoader/>;
+    } else if (!loggedIn) {
         return <Navigate to='/auth/login'/>;
     } else return <Outlet/>
 };

@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from "../state/hooks.ts";
-import * as employeeService from "../services/employeeService";
-import {setEmployees} from "../state/features/employeeSlice.ts";
-import TableBase from "../components/base/TableBase.tsx";
+import {useAppDispatch, useAppSelector} from "../../state/hooks.ts";
+import * as employeeService from "../../services/employeeService.ts";
+import {setEmployees} from "../../state/features/employeeSlice.ts";
+import TableBase from "../../components/base/TableBase.tsx";
 import {toast} from "react-toastify";
-import {Employee} from "../dtos/Employee.ts";
+import {Employee} from "../../dtos/Employee.ts";
 
 export const EmployeePage = () => {
     const {employees, error} = useAppSelector(state => state.employee);

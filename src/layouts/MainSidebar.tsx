@@ -1,4 +1,4 @@
-import {FaBars, FaHouse, FaRegRectangleList, FaUser, FaUserTie} from "react-icons/fa6";
+import {FaBars, FaHouse, FaRegRectangleList, FaUserTie} from "react-icons/fa6";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import Accordion from "../components/base/Accordion.tsx";
@@ -31,7 +31,7 @@ const MainSidebar = () => {
         },
         {
             icon: <FaRegRectangleList/>,
-            label: "Seminars",
+            label: "Available Seminars",
             link: "/dashboard/seminars"
         },
         {
@@ -42,11 +42,6 @@ const MainSidebar = () => {
                     icon: <FaUserTie/>,
                     label: "Employees",
                     link: "/dashboard/employees",
-                },
-                {
-                    icon: <FaUser/>,
-                    label: "Customers",
-                    link: "/dashboard/customers",
                 }
             ]
         }
