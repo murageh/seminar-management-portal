@@ -6,7 +6,7 @@ import {DashboardLayoutOutletContext} from "../../layouts/DashboardLayout.tsx";
 import {PageHeading} from "../../components/base/PageHeading.tsx";
 
 export const SeminarPage = () => {
-    const {seminar: {seminarHeaders, loading}} = useAppSelector(state => state);
+    const {seminarHeaders, loading} = useAppSelector(state => state.seminar);
     const {refresh} = useOutletContext<DashboardLayoutOutletContext>();
 
     return (

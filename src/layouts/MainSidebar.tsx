@@ -26,7 +26,7 @@ const MainSidebar = () => {
     const MenuItems: MenuItem[] = [
         {
             icon: <FaHouse/>,
-            label: "Dashboard",
+            label: "My Registrations",
             link: "/dashboard"
         },
         {

@@ -22,11 +22,10 @@ interface SeminarRegistrationFormProps {
 const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
     const navigate = useNavigate();
     const {no} = useParams<{ no: string }>();
-    const {
-        auth: {user, loading: authLoading},
-        seminar: {seminarHeaders, loading: semLoading},
-        customer: {loading: custLoading}
-    } = useAppSelector(state => state);
+    const {user, loading: authLoading} = useAppSelector(state => state.auth);
+    const {seminarHeaders, loading: semLoading} = useAppSelector(state => state.seminar);
+    const {loading: custLoading} = useAppSelector(state => state.customer);
+
     const {refresh, refreshSeminars, fetchAndUpdateSeminarHeader} = useOutletContext<DashboardLayoutOutletContext>();
     const [selectedSeminarNo, setSelectedSeminarNo] = useState<string | null>(no || null);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -69,16 +68,20 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
         };
         try {
             if (isEditMode) {
+                if (!registration?.headerNo || !registration?.lineNo) {
+                    toast.info('For whatever reason, we could not find the registration details. Please try again. You can log out and log in again to try again.');
+                    return;
+                }
                 // Update existing registration
                 await seminarService.updateSeminarRegistration(registration!.headerNo, registration!.lineNo, submitValues.confirmed);
                 toast('Registration updated successfully', {type: 'success'});
                 navigate('/dashboard');
                 return;
+            } else {
+                await seminarService.createSeminarRegistration(submitValues);
+                // TODO: Update SemRegistrations global store
+                toast('Registration successful', {type: 'success'});
             }
-
-            await seminarService.createSeminarRegistration(submitValues);
-            // TODO: Update SemRegistrations global store
-            toast('Registration successful', {type: 'success'});
             navigate('/dashboard');
         } catch (error: any) {
             console.error('Error submitting form:', error);

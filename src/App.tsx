@@ -1,6 +1,6 @@
 import './App.css'
 import DashboardLayout from "./layouts/DashboardLayout.tsx";
-import {createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider,} from "react-router-dom";
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
 import {ProtectedRoute} from "./routing/ProtectedRoute.tsx";
 import Loader from "./components/loaders/Loaders.tsx";
 import AuthLayout from "./layouts/auth/AuthLayout.tsx";
@@ -14,24 +14,30 @@ import SeminarRegistrationForm from "./pages/seminars/SeminarRegistrationForm.ts
 import {MyRegistrationsPage} from "./pages/seminars/MyRegistrationsPage.tsx";
 import NotFoundPage from "./pages/NotFoundPage.tsx";
 
+const dashLayout = (
+    <Route path="" element={<DashboardLayout/>}>
+        <Route index element={<MyRegistrationsPage/>}/>
+        <Route path="seminars" element={<SeminarPage/>}/>
+        {/*<Route path="seminar/new" element={<SeminarDetail mode={'edit'}/>}/>*/}
+        <Route path="seminars/register" element={<SeminarRegistrationForm/>}/>
+        <Route path="seminars/register/:no" element={<SeminarRegistrationForm/>}/>
+        <Route path="seminars/:no" element={<SeminarDetail/>}/>
+        <Route path="employees" element={<EmployeePage/>}/>
+    </Route>
+);
+
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<RootLayout/>}>
-            <Route index element={<Navigate to="/dashboard"/>}/>
             <Route path="auth" element={<AuthLayout/>}>
                 <Route path="login" element={<LoginPage/>}/>
                 <Route path="register" element={<RegisterPage/>}/>
             </Route>
+            <Route path="" element={<ProtectedRoute/>}>
+                {dashLayout}
+            </Route>
             <Route path="dashboard" element={<ProtectedRoute/>}>
-                <Route path="" element={<DashboardLayout/>}>
-                    <Route index element={<MyRegistrationsPage/>}/>
-                    <Route path="seminars" element={<SeminarPage/>}/>
-                    {/*<Route path="seminar/new" element={<SeminarDetail mode={'edit'}/>}/>*/}
-                    <Route path="seminars/register" element={<SeminarRegistrationForm/>}/>
-                    <Route path="seminars/register/:no" element={<SeminarRegistrationForm/>}/>
-                    <Route path="seminars/:no" element={<SeminarDetail/>}/>
-                    <Route path="employees" element={<EmployeePage/>}/>
-                </Route>
+                {dashLayout}
             </Route>
             <Route path="*" element={<NotFoundPage/>}/>
         </Route>

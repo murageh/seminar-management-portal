@@ -13,7 +13,8 @@ interface MyRegistrationsTableProps {
 }
 
 const SeminarHeaderTable: React.FC<MyRegistrationsTableProps> = ({registrations}) => {
-    const {seminar: {loading}, auth: {user, loading: authLoading}} = useAppSelector(state => state);
+    const {loading} = useAppSelector(state => state.seminar);
+    const {user, loading: authLoading} = useAppSelector(state => state.auth);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 

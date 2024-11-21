@@ -60,8 +60,14 @@ function RegisterPage() {
             <div className="flex flex-col lg:flex-row">
                 <div className="lg:w-1/2 mb-6 lg:mb-0 flex flex-col items-baseline justify-between px-4 py-4">
                     <h1 className="text-left text-2xl font-semibold text-gray-800">Join us.</h1>
-                    <p className="text-left text-gray-600 mt-2">Please register to create your account.<br/><strong>Seminar
-                        Management System</strong></p>
+                    <p className="text-left text-gray-600 mt-2">
+                        Please register to create your account.
+                        <br/><br/>
+                        <strong>Seminar Management System</strong>
+                        <br/>
+                        <>by&nbsp;</>
+                        <>CRONUS International Ltd.</>
+                    </p>
                 </div>
                 <div className="lg:w-1/2">
                     <Form method="post" onSubmit={handleSubmit}>
@@ -80,9 +86,12 @@ function RegisterPage() {
                                     iconPosition="left" disabled={isRegistering}>
                                 {isRegistering ? "Registering..." : "Register"}
                             </Button>
-                            <p className="text-center text-gray-600">Already have an account? <a href="#"
-                                                                                                 onClick={handleLoginLinkClick}>Log
-                                in here</a></p>
+                            <p className="text-center text-gray-600">
+                                Already have an account?
+                                <a href="#" onClick={handleLoginLinkClick}>
+                                    Log in here
+                                </a>
+                            </p>
                         </div>
                     </Form>
                 </div>
