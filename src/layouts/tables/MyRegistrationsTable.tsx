@@ -6,17 +6,19 @@ import {useAppDispatch, useAppSelector} from "../../state/hooks.ts";
 import * as seminarService from "../../services/seminarService.ts";
 import {setRegistrations} from "../../state/features/seminarHeaderSlice.ts";
 import {formatCurrency} from "../../utils";
+import {FullScreenLoader} from "../../components/loaders/Loaders.tsx";
 
 interface MyRegistrationsTableProps {
     registrations: MyRegistration[];
 }
 
 const SeminarHeaderTable: React.FC<MyRegistrationsTableProps> = ({registrations}) => {
-    const {seminar: {loading}, auth: {user}} = useAppSelector(state => state);
+    const {seminar: {loading}, auth: {user, loading: authLoading}} = useAppSelector(state => state);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     React.useEffect(() => {
+        if (!user) return;
         // Fetch registrations
         const res = seminarService.getMyRegistrations(user!.contact_No);
         res.then((response) => {
@@ -45,11 +47,15 @@ const SeminarHeaderTable: React.FC<MyRegistrationsTableProps> = ({registrations}
         },
     ];
 
+    if (authLoading || loading) {
+        return <FullScreenLoader/>;
+    }
+
     return <TableBase<MyRegistration>
         data={registrations}
         columns={columns}
         onRowClick={handleRowClick}
-        loading={loading}
+        loading={loading || authLoading}
     />;
 };
 

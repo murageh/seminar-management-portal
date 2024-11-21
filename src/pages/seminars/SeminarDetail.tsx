@@ -3,9 +3,8 @@ import React from "react";
 import Button from "../../components/base/Button.tsx";
 import {useAppSelector} from "../../state/hooks.ts";
 import PropertyTable from "../../components/base/PropertyTable.tsx";
-import FullScreenLoader from "../../components/loaders/FullScreenLoader.tsx";
-import {RefreshButton} from "../../components/base/RefreshButton.tsx";
 import {DashboardLayoutOutletContext} from "../../layouts/DashboardLayout.tsx";
+import {PageHeading} from "../../components/base/PageHeading.tsx";
 
 const SeminarDetail: React.FC = () => {
     const navigate = useNavigate();
@@ -43,18 +42,9 @@ const SeminarDetail: React.FC = () => {
 
     return (
         <>
-            {
-                loading ?
-                    <FullScreenLoader/>
-                    :
-                    <>
-                        {/*  Refresh button  */}
-                        <RefreshButton onClick={() => refresh()}/>
-                    </>
-            }
             <div className="flex-1 w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-                <h1 className="text-2xl font-bold mb-4">Seminar Information</h1>
-                <PropertyTable data={propertyData}/>
+                <PageHeading loading={loading} heading={"Seminar Information"} onClick={() => refresh()}/>
+                <PropertyTable data={loading ? [] : propertyData}/>
                 <div className="flex justify-end space-x-4 mt-4">
                     <Button type="button" variant="primary"
                             onClick={handleClick}>

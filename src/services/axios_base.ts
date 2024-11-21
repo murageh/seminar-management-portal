@@ -51,7 +51,9 @@ axiosInstance.interceptors.response.use(
                 case 401:
                     console.error('Unauthorized access - perhaps you need to log in?');
                     // Handle 401 errors (Unauthorized)
-                    toast.warning('Unauthorized access - perhaps you need to log in?');
+                    if (window.location.pathname !== '/auth/login') {
+                        toast.warning('Unauthorized access - perhaps you need to log in?');
+                    }
                     break;
                 case 403:
                     console.error('Forbidden - you do not have permission to access this resource.');

@@ -5,15 +5,16 @@ import {logout, setLoading, setUser} from "../state/features/authSlice.ts";
 import {toast} from "react-toastify";
 import * as authService from "../services/authService.ts";
 import moment from "moment";
-import FullScreenLoader from "../components/loaders/FullScreenLoader.tsx";
+import {FullScreenLoader} from "../components/loaders/Loaders.tsx";
 
 export const ProtectedRoute = () => {
     // const navigate = useNavigate();
-    const {loggedIn, user, token, loading: authLoading} = useAppSelector(state => state.auth);
+    const {loggedIn, user, token, loading: authLoading = true} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
     // In the case that loggedIn=true but user=null, fetch user data
     React.useEffect(() => {
+        if (!loggedIn) return;
         const fetchUserProfile = async () => {
             try {
                 dispatch(setLoading(true));
@@ -40,7 +41,7 @@ export const ProtectedRoute = () => {
                 toast.error("Your session has expired. Please log in again.");
             }
         } else if (loggedIn && !user && token) {
-            fetchUserProfile();
+            void fetchUserProfile();
         } else if (loggedIn && (!user && !token)) {
             dispatch(logout());
         } else if (!loggedIn && (user || token)) {

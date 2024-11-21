@@ -7,7 +7,7 @@ interface SeminarStore {
     seminarHeaders: SeminarHeader[];
     registrations: MyRegistration[];
     error?: string;
-    loading?: boolean;
+    loading: boolean;
 }
 
 const initialState: SeminarStore = {

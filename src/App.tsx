@@ -1,8 +1,8 @@
 import './App.css'
 import DashboardLayout from "./layouts/DashboardLayout.tsx";
-import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
+import {createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider,} from "react-router-dom";
 import {ProtectedRoute} from "./routing/ProtectedRoute.tsx";
-import FullScreenLoader from "./components/loaders/FullScreenLoader.tsx";
+import Loader from "./components/loaders/Loaders.tsx";
 import AuthLayout from "./layouts/auth/AuthLayout.tsx";
 import RootLayout from "./layouts/RootLayout.tsx";
 import LoginPage from "./pages/auth/Login.tsx";
@@ -17,6 +17,7 @@ import NotFoundPage from "./pages/NotFoundPage.tsx";
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<RootLayout/>}>
+            <Route index element={<Navigate to="/dashboard"/>}/>
             <Route path="auth" element={<AuthLayout/>}>
                 <Route path="login" element={<LoginPage/>}/>
                 <Route path="register" element={<RegisterPage/>}/>
@@ -40,7 +41,7 @@ const router = createBrowserRouter(
 function App() {
     return (
         <>
-            <RouterProvider router={router} fallbackElement={<FullScreenLoader/>}/>
+            <RouterProvider router={router} fallbackElement={<Loader/>}/>
         </>
     );
 }

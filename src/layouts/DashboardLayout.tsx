@@ -10,6 +10,8 @@ import * as customerService from "../services/customerService.ts";
 import {setCustomer} from "../state/features/customerSlice.ts";
 import * as authSlice from "../state/features/authSlice.ts";
 import {toast} from "react-toastify";
+import BreadCrumbs from "./BreadCrumbs.tsx";
+import {FullScreenLoader} from "../components/loaders/Loaders.tsx";
 
 export type DashboardLayoutOutletContext = {
     refresh: () => void;
@@ -19,7 +21,7 @@ export type DashboardLayoutOutletContext = {
 }
 
 const DashboardLayout = () => {
-    const {auth: {user}} = useAppSelector(state => state);
+    const {auth: {user, loading: authLoading}} = useAppSelector(state => state);
     const dispatch = useAppDispatch();
     const [refreshTracker, setRefreshTracker] = React.useState(0);
     const [rf, setRefreshSeminars] = React.useState(0);
@@ -69,6 +71,7 @@ const DashboardLayout = () => {
 
     const fetchRegistrations = React.useCallback(async () => {
         try {
+            if (!user) return;
             dispatch(seminarSlice.setLoading(true));
             seminarService.getMyRegistrations(user!.contact_No)
                 .then((response) => {
@@ -98,6 +101,10 @@ const DashboardLayout = () => {
         void fetchRegistrations();
     }, [fetchRegistrations, refreshTracker, refreshRegistrations]);
 
+    if (authLoading) {
+        return <FullScreenLoader/>;
+    }
+
     return (
         <>
             <div className="flex h-full">
@@ -105,13 +112,15 @@ const DashboardLayout = () => {
                 <MainSidebar/>
 
                 {/* Main content area */}
-                <div className="mainContent flex-1 flex flex-col h-screen">
+                <div className="mainContent flex-1 flex flex-col h-screen bg-gray-100">
                     {/* Top Navigation */}
                     <TopNav/>
 
+                    <BreadCrumbs/>
+
                     {/* Content area */}
                     <div
-                        className="dashContent overflow-auto flex-1 w-full flex flex-col justify-start h-0 items-start text-left p-12 bg-gray-100">
+                        className="dashContent overflow-auto flex-1 w-full flex flex-col justify-start h-0 items-start text-left p-12 pt-4">
                         <Outlet
                             context={{refresh, refreshSeminars, refreshRegistrations, fetchAndUpdateSeminarHeader}}/>
                     </div>

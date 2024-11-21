@@ -12,8 +12,7 @@ import {NewSeminarRegistrationRequest} from "../../dtos/AppRequest.ts";
 import {toast} from "react-toastify";
 import {MyRegistration} from "../../dtos/MyRegistration.ts";
 import {DashboardLayoutOutletContext} from "../../layouts/DashboardLayout.tsx";
-import FullScreenLoader from "../../components/loaders/FullScreenLoader.tsx";
-import {RefreshButton} from "../../components/base/RefreshButton.tsx";
+import {PageHeading} from "../../components/base/PageHeading.tsx";
 
 interface SeminarRegistrationFormProps {
     seminar?: SeminarHeader;
@@ -90,17 +89,9 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
     if (!selectedSeminarNo) {
         return (
             <>
-                {
-                    authLoading || semLoading || custLoading ?
-                        <FullScreenLoader/>
-                        :
-                        <>
-                            {/*  Refresh button  */}
-                            <RefreshButton onClick={() => refresh()}/>
-                        </>
-                }
                 <div className="flex-1 w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-                    <h1 className="text-2xl font-bold mb-4">Select a Seminar</h1>
+                    <PageHeading loading={authLoading || semLoading || custLoading} heading={"Select a Seminar"}
+                                 onClick={() => refresh()}/>
                     <div className="mb-4">
                         <label htmlFor="seminarSelect" className="block text-sm font-medium text-gray-700">
                             Please select a seminar to register for:
@@ -144,7 +135,8 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
                         </p>
                         {!registration && (
                             <div className="flex justify-end space-x-4">
-                                <Button variant="text" onClick={() => setSearchParams({edit: false})}>
+                                <Button variant="text"
+                                        onClick={() => setSearchParams({edit: 'false'}, {replace: true})}>
                                     Switch to "New registration" mode
                                 </Button>
                             </div>
