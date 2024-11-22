@@ -33,7 +33,10 @@ const TopNav = () => {
 
     const handleLogout = () => {
         dispatch({type: 'SIGNOUT_REQUEST'});
-        toast.info("Logged out :)");
+        toast.info("You have been logged out :)", {
+            type: "default",
+            position: "bottom-left",
+        });
     }
 
     return (
