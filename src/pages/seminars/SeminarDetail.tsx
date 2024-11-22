@@ -40,16 +40,32 @@ const SeminarDetail: React.FC = () => {
         {property: "Status", value: seminarHeader?.status || ''}
     ];
 
+    const isSeminarClosed = seminarHeader?.status === "Closed";
+
     return (
         <>
             <div className="flex-1 w-full mx-auto p-4 bg-white rounded-lg shadow-md">
                 <PageHeading loading={loading} heading={"Seminar Information"} onClick={() => refresh()}/>
+                {
+                    (isSeminarClosed && !loading) ?
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                             role="alert">
+                            <p className="text-base text-center font-normal mb-4">
+                                This seminar is closed for registration. You can view your registration details below.
+                            </p>
+                            <Button type="button" variant="primary" onClick={handleClick}>
+                                View my registration
+                            </Button>
+                        </div> : null
+                }
                 <PropertyTable data={loading ? [] : propertyData}/>
                 <div className="flex justify-end space-x-4 mt-4">
                     <Button type="button" variant="primary"
+                            disabled={isSeminarClosed || loading}
                             onClick={handleClick}>
                         {
-                            activeRegistration ? 'View my registration' : 'Register for this Seminar'
+                            isSeminarClosed ? 'This Seminar is closed' :
+                                activeRegistration ? 'View my registration' : 'Register for this Seminar'
                         }
                     </Button>
                 </div>
