@@ -26,9 +26,9 @@ type InputFieldProps = (NormalInputFieldProps | SelectInputFieldProps) & {
     invisible?: boolean;
 };
 
-export const InputField = ({id, label, required, fullWidth = true, ...props}: InputFieldProps) => (
+export const InputField = ({id, label, required, fullWidth = true, invisible, ...props}: InputFieldProps) => (
     <div
-        className={`${props.invisible ? 'hidden' : ''} flex flex-col align-baseline justify-center ${fullWidth ? '' : 'w-fit'}`}>
+        className={`${invisible ? 'hidden' : ''} flex flex-col align-baseline justify-center ${fullWidth ? '' : 'w-fit'}`}>
         {
             props.type === "checkbox" ?
                 (
