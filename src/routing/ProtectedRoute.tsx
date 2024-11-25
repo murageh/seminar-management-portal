@@ -19,7 +19,7 @@ export const ProtectedRoute = () => {
             try {
                 dispatch(setLoading(true));
                 const userResponse = await authService.getProfile();
-                if (userResponse.data) {
+                if (userResponse.data && userResponse.data.uuid) {
                     dispatch(setUser(userResponse.data));
                 } else {
                     dispatch(logout());
@@ -27,9 +27,9 @@ export const ProtectedRoute = () => {
                 }
                 dispatch(setLoading(false));
             } catch (error: any) {
+                dispatch(setLoading(false));
                 dispatch(logout());
                 toast.error(error.message || error);
-                dispatch(setLoading(false));
             }
         }
 
