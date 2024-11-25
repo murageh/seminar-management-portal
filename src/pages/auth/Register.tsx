@@ -4,14 +4,12 @@ import {InputField} from "../../components/base/Inputs";
 import Button from "../../components/base/Button.tsx";
 import {FaUserPlus} from "react-icons/fa";
 import {toast} from "react-toastify";
-import {useAppDispatch} from "../../state/hooks.ts";
 import * as authService from "../../services/authService.ts";
 import {flushSync} from "react-dom";
 
 function RegisterPage() {
     const {handleAuthError} = useOutletContext<{ handleAuthError: (error: string) => void }>();
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const [isRegistering, setIsRegistering] = React.useState(false);
 
     const handleSubmit = async (event: React.FormEvent) => {

@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../state/hooks.ts";
 import * as employeeService from "../../services/employeeService.ts";
 import {setEmployees} from "../../state/features/employeeSlice.ts";
-import TableBase from "../../components/base/TableBase.tsx";
+import TableBase, {TableColumn} from "../../components/base/TableBase.tsx";
 import {toast} from "react-toastify";
 import {Employee} from "../../dtos/Employee.ts";
 
 export const EmployeePage = () => {
-    const {employees, error} = useAppSelector(state => state.employee);
+    const {employees} = useAppSelector(state => state.employee);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -20,10 +20,10 @@ export const EmployeePage = () => {
             }
         };
 
-        fetchEmployees();
-    }, []);
+        void fetchEmployees();
+    }, [dispatch]);
 
-    const columns = [
+    const columns: TableColumn<Employee>[] = [
         {header: 'No', accessor: 'no', underline: 'dashed'},
         {header: 'Resource No', accessor: 'resource_No'},
         {header: 'Full Name', accessor: 'fullName'},

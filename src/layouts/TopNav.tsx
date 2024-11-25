@@ -30,8 +30,6 @@ const TopNav = () => {
     }
 
     const handleRegisterSeminar = () => {
-        // window.location.href = "/dashboard/seminars/register";
-        // window.location.reload();
         navigate("/dashboard/seminars/register");
     }
 

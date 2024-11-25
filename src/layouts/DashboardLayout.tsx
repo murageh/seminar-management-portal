@@ -64,7 +64,7 @@ const DashboardLayout = () => {
                     dispatch(seminarSlice.updateOrAddSeminarHeader(response.data));
                 });
         } catch (error) {
-            console.error('Error fetching seminarHeader:', error);
+            console.error('Error fetching seminar header:', error);
             toast.error('Error fetching seminar header');
         }
     }, [dispatch]);

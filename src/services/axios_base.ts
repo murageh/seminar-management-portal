@@ -76,10 +76,4 @@ axiosInstance.interceptors.response.use(
     }
 );
 
-// Function to update the token
-// export const updateToken = (newToken: string) => {
-//     localStorage.setItem('jwtToken', newToken);
-//     sessionStorage.setItem('jwtToken', newToken);
-// };
-
 export default axiosInstance;

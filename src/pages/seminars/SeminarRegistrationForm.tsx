@@ -24,7 +24,7 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
     const navigate = useNavigate();
     const {no} = useParams<{ no: string }>();
     const {user, loading: authLoading} = useAppSelector(state => state.auth);
-    const {seminarHeaders, loading: semLoading} = useAppSelector(state => state.seminar);
+    const {registrations, seminarHeaders, loading: semLoading} = useAppSelector(state => state.seminar);
     const {loading: custLoading} = useAppSelector(state => state.customer);
 
     const {refresh, refreshSeminars, fetchAndUpdateSeminarHeader} = useOutletContext<DashboardLayoutOutletContext>();
@@ -33,9 +33,13 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
 
     let isEditMode = searchParams.get('edit') === 'true';
     const location = useLocation();
-    const {registration} = location?.state as { registration?: MyRegistration } || {};
+    const {registration} = location?.state as { registration?: MyRegistration } || {
+        registration: registrations.find(r => r.headerNo === selectedSeminarNo)
+    } || {};
     if (isEditMode && !registration) {
         isEditMode = false;
+    } else if (!isEditMode && registration) {
+        isEditMode = true;
     }
 
     const selectedSeminarHeader = seminarHeaders.find(s => s.no === selectedSeminarNo);
@@ -46,7 +50,7 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
         } else {
             fetchAndUpdateSeminarHeader(selectedSeminarNo);
         }
-    }, []);
+    }, [fetchAndUpdateSeminarHeader, refreshSeminars, selectedSeminarNo]);
 
     const initialValues: NewSeminarRegistrationRequest = {
         semNo: selectedSeminarNo || '',
@@ -136,7 +140,7 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
                     <div className="mb-4 p-4 bg-blue-100 rounded-lg">
                         <p className="text-base font-normal mb-4">
                             You are currently in edit mode.
-                            This basically means that you have registered for this seminar before.
+                            This basically means that you have already registered for this seminar.
                             You can edit the confirmation field below.
                         </p>
                         {!registration && (

@@ -1,6 +1,6 @@
 import {FaBars, FaHouse, FaRegRectangleList, FaUserTie} from "react-icons/fa6";
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Accordion from "../components/base/Accordion.tsx";
 
 interface NormalMenuItem {
@@ -19,7 +19,9 @@ interface GroupMenuItem {
 type MenuItem = NormalMenuItem | GroupMenuItem;
 
 const MainSidebar = () => {
-    const [selected, setSelected] = React.useState<string | null>("/dashboard");
+    const {pathname} = useLocation();
+    const selected = pathname;
+
     const [isExpanded, setIsExpanded] = React.useState<boolean>(true);
     const navigate = useNavigate();
 
@@ -48,18 +50,18 @@ const MainSidebar = () => {
     ];
 
     const MenuButton = ({children, link, label}: { children: React.ReactNode, link: string, label: string }) => {
+        const isSelected = selected === link;
+
         return (
             <button
-                onClick={() => {
-                    navigate(link);
-                    return setSelected(link);
-                }}
+                onClick={() => navigate(link)}
                 title={label}
-                className={`w-full px-2 h-12 flex items-center justify-${isExpanded ? 'start' : 'center'} gap-4 rounded-md text-${selected === link ? 'primary' : 'slate-900'} bg-transparent hover:bg-blue-700`}>
+                className={`w-full px-2 h-12 flex items-center justify-${isExpanded ? 'start' : 'center'} gap-4 rounded-md text-${isSelected ? 'primary font-bold' : 'slate-900'} bg-transparent hover:bg-blue-700 hover:text-white`}>
                 {
                     React.cloneElement(children as React.ReactElement, {
                         size: 24,
-                        className: `text-${selected === link ? 'primary' : 'slate-900'} font-normal`
+                        className: `text-${isSelected ? 'primary' : 'slate-900'} font-normal`,
+                        style: {color: 'currentColor'}
                     })
                 }
                 {isExpanded && <span className="ml-2">{label}</span>}

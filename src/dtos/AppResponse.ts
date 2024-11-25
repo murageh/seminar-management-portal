@@ -99,7 +99,7 @@ interface Contact {
     e_Mail: string;
 }
 
-interface ContactsReponse {
+interface ContactsResponse {
     success: boolean;
     message: string;
     statusCode: number;
@@ -129,6 +129,6 @@ export type {
     VATProdPostingGroupsResponse,
     GenProdPostingGroupsResponse,
     Contact,
-    ContactsReponse,
+    ContactsResponse,
     MyRegistrationsResponse
 };

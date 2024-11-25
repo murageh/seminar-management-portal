@@ -11,7 +11,7 @@ import {flushSync} from "react-dom";
 
 function LoginPage() {
     const {handleAuthError} = useOutletContext<{ handleAuthError: (error: string) => void }>();
-    const [{isAuthenticated, isLoading}, setIsAuthenticated] = useState({isAuthenticated: false, isLoading: false});
+    const [{isLoading}, setIsAuthenticated] = useState({isAuthenticated: false, isLoading: false});
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
