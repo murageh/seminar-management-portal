@@ -39,11 +39,13 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
 
     const selectedSeminarHeader = seminarHeaders.find(s => s.no === selectedSeminarNo);
 
-    if (!selectedSeminarNo) {
-        refreshSeminars();
-    } else {
-        fetchAndUpdateSeminarHeader(selectedSeminarNo);
-    }
+    React.useEffect(() => {
+        if (!selectedSeminarNo) {
+            refreshSeminars();
+        } else {
+            fetchAndUpdateSeminarHeader(selectedSeminarNo);
+        }
+    }, []);
 
     const initialValues: NewSeminarRegistrationRequest = {
         semNo: selectedSeminarNo || '',

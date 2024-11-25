@@ -21,7 +21,7 @@ export type DashboardLayoutOutletContext = {
 }
 
 const DashboardLayout = () => {
-    const {auth: {user, loading: authLoading}} = useAppSelector(state => state);
+    const {user, loading: authLoading} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
     const [refreshTracker, setRefreshTracker] = React.useState(0);
     const [rf, setRefreshSeminars] = React.useState(0);

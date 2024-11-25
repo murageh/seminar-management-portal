@@ -3,10 +3,13 @@ import {useAppDispatch, useAppSelector} from "../state/hooks.ts";
 import {LuLogOut} from "react-icons/lu";
 import React from "react";
 import {IMAGES} from "../assets/images.ts";
+import {useNavigate} from "react-router-dom";
+import {FaPlus} from "react-icons/fa6";
 
 const TopNav = () => {
     const {user, loading} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const NavButton = ({text, icon, onClick, ...props}: {
         text: string,
@@ -29,6 +32,7 @@ const TopNav = () => {
     const handleRegisterSeminar = () => {
         // window.location.href = "/dashboard/seminars/register";
         // window.location.reload();
+        navigate("/dashboard/seminars/register");
     }
 
     const handleLogout = () => {
@@ -47,12 +51,12 @@ const TopNav = () => {
                 <p className="text-lg font-semibold text-gray-900">Seminar Mgmt. Portal</p>
             </div>
             <div className="flex w-1/2 flex-1 items-center justify-end space-x-4">
-                {/*<NavButton*/}
-                {/*    disabled={loading}*/}
-                {/*    text="Register for a Seminar"*/}
-                {/*    icon={<FaPlus size={18}/>}*/}
-                {/*    onClick={handleRegisterSeminar}*/}
-                {/*/>*/}
+                <NavButton
+                    disabled={loading}
+                    text="Register for a Seminar"
+                    icon={<FaPlus size={18}/>}
+                    onClick={handleRegisterSeminar}
+                />
                 <div className={"cursor-pointer text-left"}>
                     <p className="text-sm font-semibold">{user?.name || "<<#FULLNAME!>>"}</p>
                     <p className="text-xs text-gray-500">{user?.email}</p>
