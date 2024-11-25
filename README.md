@@ -1,7 +1,7 @@
 # Seminar Management Portal
 
 The Seminar Management Portal is a web application designed to manage seminar registrations. This system exposes
-Microsoft Business Central (BC) functionality through a .NET-Core 9 backend. All functionality in this portal depends on
+Microsoft Business Central (BC) functionality through a .NET-Core 8 backend. All functionality in this portal depends on
 the logic implemented in the backend.
 
 ## Table of Contents
@@ -32,7 +32,7 @@ the logic implemented in the backend.
     - Yup
 
 - **Backend:**
-    - .NET-Core 9
+    - .NET-Core 8
     - Microsoft Business Central
 
 - **Other Tools:**
