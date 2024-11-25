@@ -4,7 +4,10 @@ interface MyRegistration {
     companyNo: string;
     confirmationStatus: string;
     seminarNo: string;
+    seminarName: string;
+    startingDate: string;
     lineNo: number;
+    headerNo: string;
     registrationDate: string;
     discountAmount: number;
     participantName: string;

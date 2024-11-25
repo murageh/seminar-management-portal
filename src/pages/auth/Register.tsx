@@ -3,16 +3,13 @@ import {Form, useNavigate, useOutletContext} from "react-router-dom";
 import {InputField} from "../../components/base/Inputs";
 import Button from "../../components/base/Button.tsx";
 import {FaUserPlus} from "react-icons/fa";
-import {setUserAndClearToken} from "../../state/features/authSlice.ts";
 import {toast} from "react-toastify";
-import {useAppDispatch} from "../../state/hooks.ts";
 import * as authService from "../../services/authService.ts";
 import {flushSync} from "react-dom";
 
 function RegisterPage() {
     const {handleAuthError} = useOutletContext<{ handleAuthError: (error: string) => void }>();
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const [isRegistering, setIsRegistering] = React.useState(false);
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -23,7 +20,6 @@ function RegisterPage() {
         const email = formData.get("email") as string;
         const firstName = formData.get("firstName") as string;
         const lastName = formData.get("lastName") as string;
-        const title = formData.get("title") as string;
 
         if (!username || !password) {
             handleAuthError("You must provide both a username and password.");
@@ -36,9 +32,7 @@ function RegisterPage() {
                 username,
                 password,
                 email,
-                firstName,
-                lastName,
-                title: title || null
+                name: `${firstName} ${lastName}`,
             });
             const success = !!userResponse.data?.username;
             flushSync(() => setIsRegistering(false));
@@ -46,9 +40,8 @@ function RegisterPage() {
                 handleAuthError("Registration failed. Please try again.");
                 return;
             }
-            dispatch(setUserAndClearToken(userResponse.data));
-            toast.success("Registration successful!");
-            setTimeout(() => navigate("/dashboard"), 0);
+            toast.success("Registration successful! You can now log in.");
+            setTimeout(() => navigate("/auth/login"), 0);
         } catch (error: any) {
             flushSync(() => setIsRegistering(false));
             handleAuthError(error.message);
@@ -61,18 +54,22 @@ function RegisterPage() {
 
     return (
         <div
-            className="relative bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full before:content-['CRONUS'] before:absolute before:top-[-17%] before:left-[-5%] before:text-9xl before:font-gothic before:text-white before:opacity-10 before:rotate-[-0deg]">
+            className="relative bg-white rounded-lg shadow-lg p-8 max-w-3xl w-full before:content-['CRONUS'] before:absolute before:top-[-19%] before:left-[-5%] before:text-9xl before:font-gothic before:text-white before:opacity-10 before:rotate-[-0deg]">
             <div className="flex flex-col lg:flex-row">
                 <div className="lg:w-1/2 mb-6 lg:mb-0 flex flex-col items-baseline justify-between px-4 py-4">
                     <h1 className="text-left text-2xl font-semibold text-gray-800">Join us.</h1>
-                    <p className="text-left text-gray-600 mt-2">Please register to create your account.<br/><strong>Seminar
-                        Management System</strong></p>
+                    <p className="text-left text-gray-600 mt-2">
+                        Please register to create your account.
+                        <br/><br/>
+                        <strong>Seminar Management System</strong>
+                        <br/>
+                        <>by&nbsp;</>
+                        <>CRONUS International Ltd.</>
+                    </p>
                 </div>
                 <div className="lg:w-1/2">
                     <Form method="post" onSubmit={handleSubmit}>
                         <div className="space-y-4">
-                            <InputField fullWidth={false} id="title" label="Title" name="title"
-                                        placeholder="Mr./ Mrs./ Ms. ,etc."/>
                             <div className="flex space-x-4">
                                 <InputField id="firstName" label="First Name" name="firstName" placeholder="John"
                                             required/>
@@ -87,9 +84,12 @@ function RegisterPage() {
                                     iconPosition="left" disabled={isRegistering}>
                                 {isRegistering ? "Registering..." : "Register"}
                             </Button>
-                            <p className="text-center text-gray-600">Already have an account? <a href="#"
-                                                                                                 onClick={handleLoginLinkClick}>Log
-                                in here</a></p>
+                            <p className="text-center text-gray-600">
+                                Already have an account?
+                                <a href="#" onClick={handleLoginLinkClick}>
+                                    Log in here
+                                </a>
+                            </p>
                         </div>
                     </Form>
                 </div>

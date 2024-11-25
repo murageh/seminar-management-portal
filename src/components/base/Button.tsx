@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 
 type ButtonProps = {
-    variant?: "primary" | "secondary" | "outlined";
+    variant?: "primary" | "success" | "secondary" | "outlined" | "text";
     fullWidth?: boolean;
     icon?: React.ReactNode;
     iconPosition?: "left" | "right";
@@ -26,9 +26,11 @@ const Button: React.FC<ButtonProps> = ({
                                        }) => {
     const baseClasses = "font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all";
     const variantClasses = {
-        primary: "bg-indigo-600 text-white hover:bg-indigo-500 focus:ring-indigo-400",
+        primary: "bg-blue-600 text-white hover:bg-blue-500 focus:ring-blue-400",
+        success: "bg-green-600 text-white hover:bg-green-500 focus:ring-green-400",
         secondary: "bg-gray-600 text-white hover:bg-gray-500 focus:ring-gray-400",
         outlined: "border border-gray-600 text-gray-600 hover:bg-gray-100 focus:ring-gray-400",
+        text: "text-gray-700 hover:bg-blue-200 focus:ring-gray-800 underline",
     };
     const disabledClasses = "opacity-50 cursor-not-allowed";
     const widthClass = fullWidth ? "w-full" : "w-auto";

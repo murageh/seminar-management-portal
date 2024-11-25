@@ -3,36 +3,27 @@ import {RootState} from '../store';
 import {Customer} from "../../dtos/Customer.ts";
 
 interface CustomerStore {
-    customers: Customer[];
+    customer: Customer | null;
     error?: string;
+    loading: boolean;
 }
 
 const initialState: CustomerStore = {
-    customers: [],
+    customer: null,
     error: undefined,
+    loading: false,
 };
 
 export const customerSlice = createSlice({
     name: 'customer',
     initialState,
     reducers: {
-        setCustomers: (state, action: PayloadAction<Customer[]>) => {
-            action.payload = action.payload.filter(c => !!c.no);
-            state.customers = action.payload;
+        setCustomer: (state, action: PayloadAction<Customer>) => {
+            if (!action.payload?.no) return;
+            state.customer = action.payload;
         },
-        addCustomer: (state, action: PayloadAction<Customer>) => {
-            if (!action.payload.no) return;
-            state.customers.push(action.payload);
-        },
-        updateCustomer: (state, action: PayloadAction<Customer>) => {
-            if (!action.payload.no) return;
-            const index = state.customers.findIndex(c => c.no === action.payload.no);
-            if (index !== -1) {
-                state.customers[index] = action.payload;
-            }
-        },
-        deleteCustomer: (state, action: PayloadAction<string>) => {
-            state.customers = state.customers.filter(c => c.no !== action.payload);
+        clearCustomer: (state) => {
+            state.customer = null;
         },
         setError: (state, action: PayloadAction<string | undefined>) => {
             state.error = action.payload;
@@ -40,19 +31,21 @@ export const customerSlice = createSlice({
         clearError: (state) => {
             state.error = undefined;
         },
+        setLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading = action.payload;
+        }
     },
 });
 
 export const {
-    setCustomers,
-    addCustomer,
-    updateCustomer,
-    deleteCustomer,
+    setCustomer,
+    clearCustomer,
     setError,
     clearError,
+    setLoading
 } = customerSlice.actions;
 
-export const selectCustomers = (state: RootState) => state.customer.customers;
+export const selectCustomers = (state: RootState) => state.customer.customer;
 export const customerError = (state: RootState) => state.customer.error;
 
 export default customerSlice.reducer;

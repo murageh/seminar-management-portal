@@ -21,6 +21,14 @@ export default {
             }
         },
     },
+    safelist: [
+        'bg-primary',
+        'text-primary',
+        'border-primary',
+        'dark:bg-primary',
+        'dark:text-primary',
+        'dark:border-primary'
+    ],
     plugins: [
         require('@tailwindcss/typography'),
     ],

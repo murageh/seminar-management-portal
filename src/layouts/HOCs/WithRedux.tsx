@@ -2,7 +2,7 @@ import React from "react";
 import {Provider} from "react-redux";
 import {persistor, store} from "../../state/store.ts";
 import {PersistGate} from "redux-persist/integration/react";
-import FullScreenLoader from "../../components/loaders/FullScreenLoader.tsx";
+import Loader from "../../components/loaders/Loaders.tsx";
 
 /**
  * This component renders its children with the redux store
@@ -13,7 +13,7 @@ import FullScreenLoader from "../../components/loaders/FullScreenLoader.tsx";
 export const WithRedux = ({children}: { children: React.ReactNode }) => {
     return (
         <Provider store={store}>
-            <PersistGate loading={<FullScreenLoader/>} persistor={persistor}>
+            <PersistGate loading={<Loader/>} persistor={persistor}>
                 {children}
             </PersistGate>
         </Provider>

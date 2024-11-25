@@ -4,9 +4,9 @@ import {Customer} from '../dtos/Customer.ts';
 import axios from 'axios';
 
 // Get all customers
-export const getCustomers = async (): Promise<CustomerResponse> => {
+export const getCustomer = async (customerNo: string): Promise<CustomerResponse> => {
     try {
-        const response = await axiosInstance.get<CustomerResponse>('/customer');
+        const response = await axiosInstance.get<CustomerResponse>(`/customer/${customerNo}`);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -16,22 +16,6 @@ export const getCustomers = async (): Promise<CustomerResponse> => {
         throw new Error('An unexpected error occurred while fetching customers.');
     }
 };
-
-// Create a new customer
-// TODO: Update type of newCustomer once implemented
-export const createCustomer = async (newCustomer: any): Promise<CustomerResponse> => {
-    try {
-        const response = await axiosInstance.post<CustomerResponse>('/customer', newCustomer);
-        return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            const errorResponse: ErrorResponse = error.response.data;
-            throw new Error(errorResponse.message || errorResponse.title);
-        }
-        throw new Error('An unexpected error occurred while creating the customer.');
-    }
-};
-
 // Update an existing customer
 export const updateCustomer = async (no: string, updatedCustomer: Customer): Promise<CustomerResponse> => {
     try {

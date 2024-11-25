@@ -8,6 +8,7 @@ interface AuthStore {
     user: User | null;
     token: JWTToken | null;
     error?: string;
+    loading: boolean;
 }
 
 const initialState: AuthStore = {
@@ -15,6 +16,7 @@ const initialState: AuthStore = {
     user: null,
     token: null,
     error: undefined,
+    loading: false
 };
 
 export const authSlice = createSlice({
@@ -22,16 +24,16 @@ export const authSlice = createSlice({
     initialState: initialState,
     reducers: {
         setUser: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
+            state.user = action.payload || null;
             state.loggedIn = true;
         },
         setUserAndClearToken: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
+            state.user = action.payload || null;
             state.loggedIn = true;
             state.token = null;
         },
         setToken: (state, action: PayloadAction<JWTToken | null>) => {
-            state.token = action.payload;
+            state.token = action.payload || null;
             state.loggedIn = !!state.token;
             localStorage.setItem("jwtToken", state.token?.token || "");
         },
@@ -46,6 +48,9 @@ export const authSlice = createSlice({
         },
         clearError: (state) => {
             state.error = undefined;
+        },
+        setLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading = action.payload;
         },
         logout: (state) => {
             state.loggedIn = false;
@@ -66,6 +71,7 @@ export const {
     setToken,
     setLoggedIn,
     logout,
+    setLoading,
 } = authSlice.actions;
 
 export const isLoggedIn = (state: RootState) => state.auth.loggedIn;
