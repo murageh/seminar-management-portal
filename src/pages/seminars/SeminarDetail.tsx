@@ -5,6 +5,7 @@ import {useAppSelector} from "../../state/hooks.ts";
 import PropertyTable from "../../components/base/PropertyTable.tsx";
 import {DashboardLayoutOutletContext} from "../../layouts/DashboardLayout.tsx";
 import {PageHeading} from "../../components/base/PageHeading.tsx";
+import {formatDate} from "../../utils";
 
 const SeminarDetail: React.FC = () => {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ const SeminarDetail: React.FC = () => {
     const propertyData = [
         {property: "Seminar No", value: seminarHeader?.no || ''},
         {property: "Name", value: seminarHeader?.seminar_Name || ''},
-        {property: "Starting Date", value: seminarHeader?.starting_Date || ''},
+        {property: "Starting Date", value: formatDate(seminarHeader?.starting_Date || '')},
         {property: "Duration", value: seminarHeader?.duration.toString() || ''},
         {property: "Maximum Participants", value: seminarHeader?.maximum_Participants.toString() || ''},
         {property: "Registered Participants", value: seminarHeader?.registered_Participants.toString() || ''},

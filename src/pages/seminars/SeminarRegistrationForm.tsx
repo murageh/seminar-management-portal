@@ -13,6 +13,7 @@ import {toast} from "react-toastify";
 import {MyRegistration} from "../../dtos/MyRegistration.ts";
 import {DashboardLayoutOutletContext} from "../../layouts/DashboardLayout.tsx";
 import {PageHeading} from "../../components/base/PageHeading.tsx";
+import {formatDate} from "../../utils";
 
 interface SeminarRegistrationFormProps {
     seminar?: SeminarHeader;
@@ -122,7 +123,7 @@ const SeminarRegistrationForm: React.FC<SeminarRegistrationFormProps> = () => {
 
     const seminarDetails = selectedSeminarHeader ? [
         {property: "Name", value: selectedSeminarHeader.seminar_Name},
-        {property: "Starting date", value: selectedSeminarHeader.starting_Date},
+        {property: "Starting date", value: formatDate(selectedSeminarHeader.starting_Date || "")},
         {property: "Duration", value: `${selectedSeminarHeader.duration} days`}
     ] : [];
 
