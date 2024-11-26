@@ -10,6 +10,7 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const errorResponse: ErrorResponse = error.response.data;
+            console.log({errorResponse});
             throw new Error(errorResponse.message || errorResponse.title);
         }
         throw new Error('An unexpected error occurred during login.');
